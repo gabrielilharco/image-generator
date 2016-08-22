@@ -6,8 +6,8 @@
 
 class Object {
 public:
-    virtual Vector3 getFirstIntersection (Ray) = 0;
-    virtual Vector3 getNormalAt(Vector3) = 0;
+    virtual Vector3 getFirstIntersection (const Ray& ray) = 0;
+    virtual Vector3 getNormalAt(const Vector3 v) = 0;
 };
 
 #endif //RAYTRACER_OBJECT_H

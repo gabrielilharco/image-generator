@@ -8,8 +8,8 @@ public:
     double radius;
     Vector3 center;
 
-    Vector3 getFirstIntersection (Ray) override;
-    Vector3 getNormalAt(Vector3) override;
+    Vector3 getFirstIntersection (const Ray& ray) override;
+    Vector3 getNormalAt(Vector3 v) override;
 
     Sphere(double, Vector3);
     Sphere(double);

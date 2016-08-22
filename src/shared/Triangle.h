@@ -5,8 +5,8 @@
 
 class Triangle : public Object {
 public:
-    Vector3 getFirstIntersection (Ray) override;
-    Vector3 getNormalAt(Vector3) override;
+    Vector3 getFirstIntersection (const Ray& ray) override;
+    Vector3 getNormalAt(const Vector3 v) override;
 };
 
 #endif //RAYTRACER_TRIANGE_H

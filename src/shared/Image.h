@@ -8,11 +8,11 @@
 using namespace std;
 
 class Image {
-	public:
-		vector<vector<Color> > pixels;
+public:
+	vector<vector<Color> > pixels;
 
-		Image (unsigned long , unsigned long );
-		Image (vector<vector<Color> >);
+	Image (unsigned long , unsigned long );
+	Image (vector<vector<Color> >);
 
-		void saveToFile(const char * , int);
+	void saveToFile(const char * , int);
 };
