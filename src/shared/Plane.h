@@ -1,0 +1,4 @@
+#ifndef RAYTRACER_PLANE_H
+#define RAYTRACER_PLANE_H
+
+#endif //RAYTRACER_PLANE_H

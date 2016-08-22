@@ -1,5 +1,5 @@
-#include "Color.h"
-#include "Image.h"
+#include "shared/Color.h"
+#include "shared/Image.h"
 
 int main (int argc, char *argv[]) {
 
