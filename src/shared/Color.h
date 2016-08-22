@@ -3,13 +3,12 @@
 
 class Color {
 	public:
-		int r, g, b;
+        unsigned char r, g, b;
 		double a;
 		
 		Color ();
-		
 		Color (int, int, int, double);
-
+        Color (unsigned char, unsigned char, unsigned char, double);
 };
 
 #endif

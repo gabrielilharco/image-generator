@@ -13,8 +13,15 @@ Color::Color () {
 }
 
 Color::Color (int red, int green, int blue, double alpha) {
-    r = max(0,min(red, 255));
-    g = max(0,min(green, 255));
-    b = max(0,min(blue, 255));
+    r = (unsigned  char)max(0,min(red, 255));
+    g = (unsigned  char)max(0,min(green, 255));
+    b = (unsigned  char)max(0,min(blue, 255));
+    a = max(0,min(alpha,1));
+}
+
+Color::Color (unsigned char red, unsigned char green, unsigned char blue, double alpha) {
+    r = red;
+    g = green;
+    b = blue;
     a = max(0,min(alpha,1));
 }

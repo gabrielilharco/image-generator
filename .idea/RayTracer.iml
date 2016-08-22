@@ -5,19 +5,20 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/raytracer/RayTracer.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/raytracer/RayTracer.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/shared/Triangle.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/shared/Plane.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/shared/Vector.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/shared/Color.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/shared/Ray.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/shared/Color.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/shared/Object.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/shared/Triangle.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/shared/Vector3.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/shared/Image.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/shared/Plane.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/shared/Sphere.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/shared/Plane.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/shared/Triangle.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/shared/Object.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/shared/Sphere.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/shared/Vector.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/shared/Vector3.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/shared/Triangle.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/shared/Image.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/shared/Color.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/shared/Ray.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/CMakeLists.txt" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
     </content>
