@@ -12,12 +12,13 @@
 
 class RayTracer {
 public:
-    void generateImage(const WorldScene& ws);
+    void render(const WorldScene& ws);
     const Image& getImage();
 
 private:
-    Color traceRay(const Ray& originalRay);
     Image generatedImage;
+
+    Color traceRay(const Ray& originalRay);
 };
 
 

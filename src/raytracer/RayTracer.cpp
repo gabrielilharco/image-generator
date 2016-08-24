@@ -4,7 +4,7 @@
 
 #include "RayTracer.h"
 
-void RayTracer::generateImage(const WorldScene &ws) {
+void RayTracer::render(const WorldScene &ws) {
 
 }
 
