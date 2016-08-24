@@ -4,5 +4,5 @@
 
 #include "Ray.h"
 
-Ray::Ray(Vector3 dir, Vector3 ori) : dir(dir), ori(ori) {
+Ray::Ray(Vector3 direction, Vector3 origin) : direction(direction), origin(origin) {
 }

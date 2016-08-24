@@ -6,7 +6,7 @@
 
 class Object {
 public:
-    virtual Vector3 getFirstIntersection (const Ray& ray) = 0;
+    virtual double getFirstIntersection (const Ray& ray) = 0;
     virtual Vector3 getNormalAt(const Vector3 v) = 0;
 };
 

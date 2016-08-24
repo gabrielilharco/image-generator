@@ -5,10 +5,10 @@
 
 class Ray {
 public:
-    Vector3 dir;
-    Vector3 ori;
+    Vector3 direction;
+    Vector3 origin;
 
-    Ray(Vector3 dir, Vector3 ori);
+    Ray(Vector3 direction, Vector3 origin);
 };
 
 
