@@ -14,7 +14,7 @@ class WorldScene {
 public:
     void addObject(Object* obj);
     vector<Object *> worldObjects() {return listOfObjects;}
-    double getFirstIntersection(const Ray& ray, Object* obj);
+    double getFirstIntersection(const Ray& ray, Object* &obj);
 
 private:
     vector<Object *> listOfObjects;

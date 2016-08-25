@@ -3,12 +3,14 @@
 
 class Color {
 	public:
-        unsigned char r, g, b;
-		double a;
-		
+        double r, g, b;
+
 		Color ();
-		Color (int, int, int, double);
-        Color (unsigned char, unsigned char, unsigned char, double);
+        Color (double, double, double);
+
+	    Color operator * (double);
+        Color operator * (Color);
+        Color operator + (Color);
 };
 
 #endif

@@ -5,18 +5,18 @@ double Sphere::getFirstIntersection (const Ray& ray) {
 
     double a = 1;
     double b = 2*(ray.origin - center).dot(ray.direction);
-    double c = Vector3::distance(ray.origin, center) - radius*radius;
+    double c = Vector3::distance2(ray.origin, center) - radius*radius;
 
     double discriminant = b*b - 4*c;
 
     if (discriminant > 0) {
-        double root_1 = ((-1*b - sqrt(discriminant))/(2*a)) - 0.000001;
+        double root_1 = ((-1*b - sqrt(discriminant))/(2*a)); //- 0.000001;
 
         if (root_1 > 0) {
             return root_1;
         }
         else {
-            double root_2 = ((sqrt(discriminant) - b)/(2*a)) - 0.000001;
+            double root_2 = ((sqrt(discriminant) - b)/(2*a)); // - 0.000001;
             return root_2;
         }
     }
