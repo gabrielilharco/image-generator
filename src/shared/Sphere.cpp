@@ -10,15 +10,8 @@ double Sphere::getFirstIntersection (const Ray& ray) {
     double discriminant = b*b - 4*c;
 
     if (discriminant > 0) {
-        double root_1 = ((-1*b - sqrt(discriminant))/(2*a)); //- 0.000001;
-
-        if (root_1 > 0) {
-            return root_1;
-        }
-        else {
-            double root_2 = ((sqrt(discriminant) - b)/(2*a)); // - 0.000001;
-            return root_2;
-        }
+        double root_1 = ((-1*b - sqrt(discriminant))/(2*a)) - 0.000001;
+        return root_1 > 0 ? root_1 : ((sqrt(discriminant) - b)/(2*a)) - 0.000001;
     }
     else {
         return -1;

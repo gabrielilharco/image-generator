@@ -47,3 +47,11 @@ Vector3 Vector3::normalize () {
 double Vector3::dot(const Vector3& v) {
     return x*v.x + y*v.y + z*v.z;
 }
+
+Vector3 Vector3::cross(const Vector3& v){
+    return Vector3(y*v.z-z*v.y, z*v.x-x*v.z, x*v.y-y*v.x);
+}
+
+double Vector3::abs() {
+    return sqrt(x*x+y*y+z*z);
+}

@@ -17,6 +17,8 @@ public:
     Vector3 operator * (const Vector3&) const;
     Vector3 normalize ();
     double dot(const Vector3&);
+    Vector3 cross(const Vector3&);
+    double abs();
 };
 
 #endif //RAYTRACER_VECTOR3_H

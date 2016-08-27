@@ -4,7 +4,7 @@ set(SOURCE_DIR ".")
 file(GLOB_RECURSE SRCS *.cpp)
 file(GLOB_RECURSE HDRS *.h)
 
-add_library(image_gen_lib ${SRCS} ${HDRS} shared/Image.cpp)
+add_library(image_gen_lib ${SRCS} ${HDRS} shared/Image.cpp shared/Camera.cpp shared/Camera.h)
 
 
 add_executable(image_gen main.cpp)

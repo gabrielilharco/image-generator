@@ -1,7 +1,7 @@
 #include "shared/Image.h"
 #include "shared/WorldScene.h"
 #include "shared/Sphere.h"
-
+#include "shared/Camera.h"
 #include <stdio.h>
 
 
@@ -11,30 +11,39 @@ int main (int argc, char *argv[]) {
     Sphere * s = new Sphere(1.5, Vector3(0,5,5));
     s->color = Color(1,0,0);
     s->emissionColor = Color(0,0,0);
-    scene.addObject(s);
-    Sphere * lightSource = new Sphere(2, Vector3(3,-2,5));
-    lightSource->color = Color(1,1,1);
-    lightSource->emissionColor = Color(1,1,1);
+//    scene.addObject(s);
+    Sphere * lightSource = new Sphere(0.1, Vector3(0,0,4));
+    lightSource->color = Color(0,1,0);
+    lightSource->emissionColor = Color(1,0,0);
     scene.addObject(lightSource);
+//    Sphere * lightSource2 = new Sphere(1, Vector3(3,-2,5));
+//    lightSource2->color = Color(1,1,1);
+//    lightSource2->emissionColor = Color(1,1,1);
+//    scene.addObject(lightSource2);
 
     //camera
-    Vector3 cam(0,0, -10);
+    //Vector3 cam(0,0, -10);
+    int height = 2000;
+    int width = 2000;
+    Camera camera(width, height);
 
 	int dpi = 72;
-	unsigned long width = 640;
-	unsigned long height = 480;
+//	unsigned long width = 640;
+//	unsigned long height = 480;
 
-    double pixelSize = 0.05;
+//    double pixelSize = 0.05;
     Image * image = new Image(width, height);
-    double pixelDist = 5.0;
+    double pixelSizeX = (camera.top_left-camera.top_right).abs()/width;
+    double pixelSizeY = (camera.top_left-camera.bot_left).abs()/height;
+    Vector3 cameraHorizontal = (camera.top_left-camera.top_right).normalize();
+    Vector3 cameraVertical = (camera.top_left-camera.bot_left).normalize();
 
     for (int h = 0; h < height; h++) {
         for (int w = 0; w < width; w++) {
 
-            Vector3 pixelPos((w  - width / 2.0) * pixelSize, (h - height / 2.0) * pixelSize, -pixelDist);
+            Vector3 currentPixelPosition = camera.top_left + cameraHorizontal*((w+0.5)*pixelSizeX) + cameraVertical*((h+0.5)*pixelSizeY);
 
-            //check
-            Ray ray(cam, pixelPos - cam);
+            Ray ray(camera.origin, currentPixelPosition - camera.origin);
 
             Object *intercObj = NULL;
             double distToInter = scene.getFirstIntersection(ray, intercObj);
@@ -69,8 +78,8 @@ int main (int argc, char *argv[]) {
                     }
 
                     image->pixels[h][w] = image->pixels[h][w] +
-                            lightSrc->emissionColor * (intercObj->color * transmission *
-                            max(0.0, norm.dot(lightDir)));
+                            lightSrc->emissionColor * intercObj->color * transmission *
+                            max(0.0, norm.dot(lightDir));
 //                    cout << "n: " << norm.dot(lightDir) <<" t:" << transmission.b << endl;
                 }
 //                cout << (image->pixels[h][w]).r <<  " " << (image->pixels[h][w]).g
