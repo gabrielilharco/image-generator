@@ -12,7 +12,7 @@ int main (int argc, char *argv[]) {
     s->color = Color(1,0,0);
     s->emissionColor = Color(0,0,0);
 //    scene.addObject(s);
-    Sphere * lightSource = new Sphere(0.1, Vector3(0,0,4));
+    Sphere * lightSource = new Sphere(1, Vector3(0,0,7));
     lightSource->color = Color(0,1,0);
     lightSource->emissionColor = Color(1,0,0);
     scene.addObject(lightSource);
@@ -23,8 +23,8 @@ int main (int argc, char *argv[]) {
 
     //camera
     //Vector3 cam(0,0, -10);
-    int height = 2000;
-    int width = 2000;
+    int height = 4800;
+    int width = 6400;
     Camera camera(width, height);
 
 	int dpi = 72;
@@ -35,16 +35,20 @@ int main (int argc, char *argv[]) {
     Image * image = new Image(width, height);
     double pixelSizeX = (camera.top_left-camera.top_right).abs()/width;
     double pixelSizeY = (camera.top_left-camera.bot_left).abs()/height;
-    Vector3 cameraHorizontal = (camera.top_left-camera.top_right).normalize();
-    Vector3 cameraVertical = (camera.top_left-camera.bot_left).normalize();
-
+    Vector3 cameraHorizontal = (camera.top_right-camera.top_left).normalize();
+    Vector3 cameraVertical = (camera.bot_left-camera.top_left).normalize();
+    printf("CAMERA ORIGIN\n%.2lf %.2lf %.2lf\n", camera.origin.x, camera.origin.y, camera.origin.z);
+    printf("CAMERA TOPLEFT\n%.2lf %.2lf %.2lf\n", camera.top_left.x, camera.top_left.y, camera.top_left.z);
+    printf("CAMERA HOR\n%.2lf %.2lf %.2lf\n", cameraHorizontal.x, cameraHorizontal.y, cameraHorizontal.z);
+    printf("CAMERA VER\n%.2lf %.2lf %.2lf\n", cameraVertical.x, cameraVertical.y, cameraVertical.z);
     for (int h = 0; h < height; h++) {
         for (int w = 0; w < width; w++) {
 
             Vector3 currentPixelPosition = camera.top_left + cameraHorizontal*((w+0.5)*pixelSizeX) + cameraVertical*((h+0.5)*pixelSizeY);
-
+            //printf("%.2lf %.2lf %.2lf\n", currentPixelPosition.x, currentPixelPosition.y, currentPixelPosition.z);
+            //printf("%.2lf %.2lf %.2lf\n", currentPixelPosition.x - camera.origin.x, currentPixelPosition.y - camera.origin.y, currentPixelPosition.z - camera.origin.z);
             Ray ray(camera.origin, currentPixelPosition - camera.origin);
-
+            //printf("%.2lf %.2lf %.2lf\n", ray.direction.x, ray.direction.y, ray.direction.z);
             Object *intercObj = NULL;
             double distToInter = scene.getFirstIntersection(ray, intercObj);
 
@@ -52,38 +56,38 @@ int main (int argc, char *argv[]) {
             //    printf("Obj not null!! - %lf\n", distToInter);
 
             if (distToInter >= 0) {
-                Vector3 intercPoint = ray.origin + ray.direction.normalize() * distToInter;
-                Vector3 norm = intercObj->getNormalAt(intercPoint);
-
-//                printf("batataaaaaaaaa");
-                for (int i = 0; i < scene.worldObjects().size(); i++) {
-                    // FIXME
-                    if (scene.worldObjects()[i]->emissionColor.r <= 0.0) continue;
-
-                    Sphere* lightSrc = (Sphere*) scene.worldObjects()[i];
-                    Vector3 lightDir = (lightSrc->center - intercPoint).normalize();
-
-                    Color transmission(1,1,1);
-                    for (int j = 0; j < scene.worldObjects().size(); j++) {
-                        if (i == j || scene.worldObjects()[j] == intercObj) continue;
-
-                        Ray lightRay(intercPoint, lightDir);
-                        double dist = scene.worldObjects()[j]->getFirstIntersection(lightRay);
-
-                        //if intersects
-                        if (dist >= 0) {
-                            transmission = Color(0,0,0);
-                            break;
-                        }
-                    }
-
-                    image->pixels[h][w] = image->pixels[h][w] +
-                            lightSrc->emissionColor * intercObj->color * transmission *
-                            max(0.0, norm.dot(lightDir));
-//                    cout << "n: " << norm.dot(lightDir) <<" t:" << transmission.b << endl;
-                }
-//                cout << (image->pixels[h][w]).r <<  " " << (image->pixels[h][w]).g
-//                     << " " << (image->pixels[h][w]).b << endl;
+//                Vector3 intercPoint = ray.origin + ray.direction.normalize() * distToInter;
+//                Vector3 norm = intercObj->getNormalAt(intercPoint);
+//
+////                printf("batataaaaaaaaa");
+//                for (int i = 0; i < scene.worldObjects().size(); i++) {
+//                    // FIXME
+//                    if (scene.worldObjects()[i]->emissionColor.r <= 0.0) continue;
+//
+//                    Sphere* lightSrc = (Sphere*) scene.worldObjects()[i];
+//                    Vector3 lightDir = (lightSrc->center - intercPoint).normalize();
+//
+//                    Color transmission(1,1,1);
+//                    for (int j = 0; j < scene.worldObjects().size(); j++) {
+//                        if (i == j || scene.worldObjects()[j] == intercObj) continue;
+//
+//                        Ray lightRay(intercPoint, lightDir);
+//                        double dist = scene.worldObjects()[j]->getFirstIntersection(lightRay);
+//
+//                        //if intersects
+//                        if (dist >= 0) {
+//                            transmission = Color(0,0,0);
+//                            break;
+//                        }
+//                    }
+//
+//                    image->pixels[h][w] = image->pixels[h][w] +
+//                            lightSrc->emissionColor * intercObj->color * transmission *
+//                            max(0.0, norm.dot(lightDir));
+////                    cout << "n: " << norm.dot(lightDir) <<" t:" << transmission.b << endl;
+//                }
+////                cout << (image->pixels[h][w]).r <<  " " << (image->pixels[h][w]).g
+////                     << " " << (image->pixels[h][w]).b << endl;
                 image->pixels[h][w] = (image->pixels[h][w] + intercObj->emissionColor)*255;
             }
         }
