@@ -1,9 +1,9 @@
 #ifndef RAYTRACER_OBJECT_H
 #define RAYTRACER_OBJECT_H
 
-#include "Vector3.h"
-#include "Ray.h"
-#include "Color.h"
+#include "shared/math/Vector3.h"
+#include "shared/geometry/Ray.h"
+#include "shared/rendering/Color.h"
 
 #define INF 1e80
 

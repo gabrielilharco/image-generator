@@ -1,7 +1,7 @@
 #ifndef RAYTRACER_SPHERE_H
 #define RAYTRACER_SPHERE_H
 
-#include "Object.h"
+#include "shared/geometry/Object.h"
 
 class Sphere : public Object {
 public:

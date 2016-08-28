@@ -1,7 +1,7 @@
 #ifndef IMAGE_GENERATOR_DIRECTIONALLIGHT_H
 #define IMAGE_GENERATOR_DIRECTIONALLIGHT_H
 
-#include "Light.h"
+#include "shared/rendering/Light.h"
 
 class DirectionalLight : public Light{
 public:

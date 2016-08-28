@@ -1,4 +1,4 @@
-#include "Plane.h"
+#include "shared/geometry/Plane.h"
 
 double Plane::getFirstIntersection (const Ray& ray) {
     return 0;

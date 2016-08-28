@@ -1,9 +1,7 @@
-#include "Color.h"
+#include "shared/rendering/Color.h"
 
 #define min(a,b) (a < b ? a : b)
 #define max(a,b) (a > b ? a : b)
-
-using namespace std;
 
 Color::Color () {
     r = 0;

@@ -2,7 +2,7 @@
 // Created by muzio on 8/22/16.
 //
 
-#include "WorldScene.h"
+#include "shared/rendering/WorldScene.h"
 
 #include <math.h>
 

@@ -5,10 +5,10 @@
 #ifndef IMAGE_GENERATOR_RAYTRACER_H
 #define IMAGE_GENERATOR_RAYTRACER_H
 
-#include "shared/Image.h"
-#include "shared/WorldScene.h"
-#include "shared/Color.h"
-#include "shared/Ray.h"
+#include "shared/rendering/Image.h"
+#include "shared/rendering/WorldScene.h"
+#include "shared/rendering/Color.h"
+#include "shared/geometry/Ray.h"
 
 class RayTracer {
 public:

@@ -6,8 +6,8 @@
 #define IMAGE_GENERATOR_WORLDSCENE_H
 
 #include <vector>
-#include "Object.h"
-#include "Light.h"
+#include "shared/geometry/Object.h"
+#include "shared/rendering/Light.h"
 
 using namespace std;
 

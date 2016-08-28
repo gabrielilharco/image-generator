@@ -1,4 +1,4 @@
-#include "PointLight.h"
+#include "shared/rendering/PointLight.h"
 
 
 Vector3 PointLight::directionAt (const Vector3& point) {

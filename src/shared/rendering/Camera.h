@@ -1,7 +1,7 @@
 #ifndef IMAGE_GENERATOR_CAMERA_H
 #define IMAGE_GENERATOR_CAMERA_H
 
-#include "Vector3.h"
+#include "shared/math/Vector3.h"
 
 class Camera {
 

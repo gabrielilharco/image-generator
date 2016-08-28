@@ -3,7 +3,7 @@
 #include <sstream>
 #include <vector>
 #include <stdlib.h>
-#include "Color.h"
+#include "shared/rendering/Color.h"
 
 using namespace std;
 

@@ -1,7 +1,7 @@
 #ifndef IMAGE_GENERATOR_POINTLIGHT_H
 #define IMAGE_GENERATOR_POINTLIGHT_H
 
-#include "Light.h"
+#include "shared/rendering/Light.h"
 
 class PointLight : public Light{
 public:

@@ -1,4 +1,4 @@
-#include "Camera.h"
+#include "shared/rendering/Camera.h"
 
 Camera::Camera (int w, int h) {
     height = h;

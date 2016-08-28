@@ -1,4 +1,4 @@
-#include "Image.h"
+#include "shared/rendering/Image.h"
 
 Image::Image (unsigned long  width, unsigned long  height) {
     vector<vector<Color> > p(height, vector<Color>(width));

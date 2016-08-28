@@ -1,4 +1,4 @@
-#include "DirectionalLight.h"
+#include "shared/rendering/DirectionalLight.h"
 
 
 Vector3 DirectionalLight::directionAt (const Vector3& point) {

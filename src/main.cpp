@@ -1,8 +1,8 @@
-#include "shared/Image.h"
-#include "shared/WorldScene.h"
-#include "shared/Sphere.h"
-#include "shared/Camera.h"
-#include "shared/DirectionalLight.h"
+#include "shared/rendering/Image.h"
+#include "shared/rendering/WorldScene.h"
+#include "shared/geometry/Sphere.h"
+#include "shared/rendering/Camera.h"
+#include "shared/rendering/DirectionalLight.h"
 #include <math.h>
 
 

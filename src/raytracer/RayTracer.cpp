@@ -2,7 +2,7 @@
 // Created by muzio on 8/22/16.
 //
 
-#include "RayTracer.h"
+#include "raytracer/RayTracer.h"
 
 void RayTracer::render(const WorldScene &ws) {
 

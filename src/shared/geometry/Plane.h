@@ -1,7 +1,7 @@
 #ifndef RAYTRACER_PLANE_H
 #define RAYTRACER_PLANE_H
 
-#include "Object.h"
+#include "shared/geometry/Object.h"
 
 class Plane : public Object {
 public:

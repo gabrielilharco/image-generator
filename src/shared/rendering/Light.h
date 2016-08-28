@@ -1,8 +1,8 @@
 #ifndef IMAGE_GENERATOR_LIGHT_H
 #define IMAGE_GENERATOR_LIGHT_H
 
-#include "Vector3.h"
-#include "Color.h"
+#include "shared/math/Vector3.h"
+#include "shared/rendering/Color.h"
 
 class Light {
 public:

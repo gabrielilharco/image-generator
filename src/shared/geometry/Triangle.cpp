@@ -1,4 +1,4 @@
-#include "Triangle.h"
+#include "shared/geometry/Triangle.h"
 
 double Triangle::getFirstIntersection (const Ray& ray) {
     return 0;

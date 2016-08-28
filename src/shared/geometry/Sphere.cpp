@@ -1,4 +1,4 @@
-#include "Sphere.h"
+#include "shared/geometry/Sphere.h"
 #include <math.h>
 
 double Sphere::getFirstIntersection (const Ray& ray) {
