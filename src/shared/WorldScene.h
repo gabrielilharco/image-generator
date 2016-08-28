@@ -7,17 +7,21 @@
 
 #include <vector>
 #include "Object.h"
+#include "Light.h"
 
 using namespace std;
 
 class WorldScene {
 public:
     void addObject(Object* obj);
-    vector<Object *> worldObjects() {return listOfObjects;}
+    void addLight(Light* l);
+    vector<Object *> objects() {return listOfObjects;}
+    vector<Light *> lights() {return listOfLights;}
     double getFirstIntersection(const Ray& ray, Object* &obj);
 
 private:
     vector<Object *> listOfObjects;
+    vector<Light *> listOfLights;
 };
 
 

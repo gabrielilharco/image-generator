@@ -3,19 +3,23 @@
 
 double Sphere::getFirstIntersection (const Ray& ray) {
 
-    double a = 1;
+    double a = Vector3::abs2(ray.direction);
     double b = 2*(ray.origin - center).dot(ray.direction);
-    double c = Vector3::distance2(ray.origin, center) - radius*radius;
+    double c = Vector3::abs2(ray.origin - center) - radius*radius;
 
-    double discriminant = b*b - 4*c;
+    double delta = b*b - 4*c;
 
-    if (discriminant > 0) {
-        double root_1 = ((-1*b - sqrt(discriminant))/(2*a)) - 0.000001;
-        return root_1 > 0 ? root_1 : ((sqrt(discriminant) - b)/(2*a)) - 0.000001;
+    if (delta > 0) {
+        double root_1 = (-1*b - sqrt(delta))/(2*a);
+        double root_2 = (-1*b + sqrt(delta))/(2*a);
+        if (root_1 > 0) return root_1;
+        if (root_2 > 0) return root_2;
     }
-    else {
-        return -1;
+    else if (delta == 0) {
+        double root = -b / (2 * a);
+        if (root > 0) return root;
     }
+    return INF;
 }
 
 Vector3 Sphere::getNormalAt (Vector3 point) {

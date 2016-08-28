@@ -1,16 +1,18 @@
-//
-// Created by ilharco on 28/08/16.
-//
-
 #ifndef IMAGE_GENERATOR_DIRECTIONALLIGHT_H
 #define IMAGE_GENERATOR_DIRECTIONALLIGHT_H
 
+#include "Light.h"
 
+class DirectionalLight : public Light{
+public:
+    Vector3 direction;
+    Color color;
 
-class DirectionalLight {
+    virtual Vector3 directionAt (const Vector3& point) override;
+    virtual Color colorAt(const Vector3& point) override;
 
+    DirectionalLight(Color c, Vector3 dir);
 };
-
 
 
 #endif //IMAGE_GENERATOR_DIRECTIONALLIGHT_H

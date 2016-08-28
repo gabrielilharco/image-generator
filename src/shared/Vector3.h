@@ -11,6 +11,7 @@ public:
 
     static double distance(const Vector3& v1, const Vector3& v2);
     static double distance2(const Vector3& v1, const Vector3& v2);
+    static double abs2(const Vector3& v);
     Vector3 operator + (const Vector3&) const;
     Vector3 operator - (const Vector3&) const;
     Vector3 operator * (double) const;
@@ -19,6 +20,7 @@ public:
     double dot(const Vector3&);
     Vector3 cross(const Vector3&);
     double abs();
+
 };
 
 #endif //RAYTRACER_VECTOR3_H

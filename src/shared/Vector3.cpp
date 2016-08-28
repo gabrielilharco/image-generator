@@ -40,7 +40,7 @@ Vector3 Vector3::operator*(const Vector3 & v) const {
 
 Vector3 Vector3::normalize () {
     double m = sqrt(x*x + y*y + z*z);
-    if (m == 0) return Vector3(x,y,z);
+    if (m == 0) return Vector3(1,0,0);
     return Vector3(x/m, y/m, z/m);
 }
 
@@ -54,4 +54,8 @@ Vector3 Vector3::cross(const Vector3& v){
 
 double Vector3::abs() {
     return sqrt(x*x+y*y+z*z);
+}
+
+double Vector3::abs2(const Vector3& v) {
+    return v.x*v.x+v.y*v.y+v.z*v.z;
 }

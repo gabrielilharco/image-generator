@@ -4,5 +4,5 @@
 
 #include "Ray.h"
 
-Ray::Ray(Vector3 direction, Vector3 origin) : direction(direction.normalize()), origin(origin) {
+Ray::Ray(Vector3 origin, Vector3 direction) : direction(direction.normalize()), origin(origin) {
 }

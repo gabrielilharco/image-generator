@@ -8,7 +8,7 @@ public:
     Vector3 direction;
     Vector3 origin;
 
-    Ray(Vector3 direction, Vector3 origin);
+    Ray(Vector3 origin, Vector3 direction);
 };
 
 

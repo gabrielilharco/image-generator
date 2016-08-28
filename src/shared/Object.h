@@ -5,6 +5,8 @@
 #include "Ray.h"
 #include "Color.h"
 
+#define INF 1e80
+
 enum Material {
     OPA,
     SPEC,
@@ -15,7 +17,6 @@ class Object {
 public:
     Material material;
     Color color;
-    Color emissionColor;
 
     virtual double getFirstIntersection (const Ray& ray) = 0;
     virtual Vector3 getNormalAt(const Vector3 v) = 0;
