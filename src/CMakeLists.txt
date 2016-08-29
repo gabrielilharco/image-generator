@@ -7,7 +7,6 @@ file(GLOB_RECURSE HDRS *.h)
 add_library(image_gen_lib ${SRCS} ${HDRS})
 
 add_executable(image_gen main.cpp)
-add_executable(image_gen_rasterization mainRasterization.cpp)
 
 #libs
 target_link_libraries(image_gen image_gen_lib)

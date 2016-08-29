@@ -9,7 +9,7 @@ Image::Image (vector<vector<Color>> p) {
     pixels = p;
 }
 
-void Image::saveToFile (const char * filename, int dpi) {
+void Image::saveToFile (const char * filename, int dpi) const {
     FILE *f;
     unsigned long  height = pixels.size();
     unsigned long  width = pixels[0].size();

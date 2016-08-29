@@ -3,11 +3,11 @@
 #include "shared/geometry/Sphere.h"
 #include "shared/rendering/Camera.h"
 #include "shared/rendering/DirectionalLight.h"
+#include "rasterizer/Rasterizer.h"
+#include "shared/geometry/Triangle.h"
 #include <math.h>
 
-
-int main (int argc, char *argv[]) {
-
+int rayTracer() {
     WorldScene scene;
     Sphere * s = new Sphere(4, Vector3(0,0,10));
     s->color = Color(1,0,0);
@@ -21,7 +21,7 @@ int main (int argc, char *argv[]) {
     int width = 640;
     Camera camera(width, height);
 
-	int dpi = 72;
+    int dpi = 72;
 
     Image * image = new Image(width, height);
     double pixelSizeX = (camera.top_left-camera.top_right).abs()/width;
@@ -66,12 +66,43 @@ int main (int argc, char *argv[]) {
                         image->pixels[h][w] = image->pixels[h][w] + light->colorAt(intercPoint) * intercObj->color * transmission * fabs(cos);
                 }
 
-                  image->pixels[h][w] = (image->pixels[h][w])*255;
+                image->pixels[h][w] = (image->pixels[h][w])*255;
             }
         }
     }
 
     image->saveToFile("test.bmp",dpi);
-	
-	return 0;
+
+    return 0;
+};
+
+int rasterization() {
+    WorldScene scene;
+    Triangle triangle(Vector3(-0.5, -0.5, -3),
+                      Vector3(0.0, 0.5, -3),
+                      Vector3(0.5, -0.5, -3));
+    scene.addObject(&triangle);
+    Rasterizer rasterizer(scene, 640, 480);
+    rasterizer.renderImage().saveToFile("testRasterization.bmp", 72);
+    return 0;
+}
+
+
+int main (int argc, char *argv[]) {
+    if (argc != 2) {
+        std::cout << "Bad arguments" << std::endl;
+        return 1;
+    }
+    std::string rayTracerParameter = "-raytracer";
+    std::string rasterizationParameter = "-rasterization";
+    if (rayTracerParameter.compare(argv[1]) == 0) {
+        return rayTracer();
+    }
+    else if (rasterizationParameter.compare(argv[1]) == 0) {
+        return rasterization();
+    }
+    else {
+        std::cout << "Bad arguments" << std::endl;
+        return 1;
+    }
 }
