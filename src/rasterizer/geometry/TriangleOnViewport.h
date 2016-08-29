@@ -6,12 +6,12 @@
 
 class TriangleOnViewport{
 public:
-    const Vector2 &a;
-    const Vector2 &b;
-    const Vector2 &c;
-    const Triangle &correspondentTriangle;
+    const Vector2 a;
+    const Vector2 b;
+    const Vector2 c;
+    const Triangle correspondentTriangle;
 
-    TriangleOnViewport(const Vector2 &a, const Vector2 &b, const Vector2 &c, const Triangle &correspondentTriangle);
+    TriangleOnViewport(const Vector2 a, const Vector2 b, const Vector2 c, const Triangle correspondentTriangle);
 };
 
 #endif //RAYTRACER_TRIANGLEONVIEWPORT_H
