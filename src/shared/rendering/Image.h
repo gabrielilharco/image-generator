@@ -9,10 +9,10 @@ using namespace std;
 
 class Image {
 public:
-	vector<vector<Color> > pixels;
+	vector<vector<Color>> pixels;
 
-	Image (unsigned long , unsigned long );
-	Image (vector<vector<Color> >);
+	Image(unsigned long width, unsigned long height);
+	Image(vector<vector<Color>> pixels);
 
-	void saveToFile(const char * , int);
+	void saveToFile(const char * filename, int dpi);
 };

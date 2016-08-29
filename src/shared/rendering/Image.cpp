@@ -5,7 +5,7 @@ Image::Image (unsigned long  width, unsigned long  height) {
     pixels = p;
 }
 
-Image::Image (vector<vector<Color> > p) {
+Image::Image (vector<vector<Color>> p) {
     pixels = p;
 }
 
@@ -58,7 +58,9 @@ void Image::saveToFile (const char * filename, int dpi) {
 
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
-            unsigned char color[3] = {pixels[i][j].b, pixels[i][j].g, pixels[i][j].r};
+            unsigned char color[3] = {(unsigned char) pixels[i][j].b,
+                                      (unsigned char) pixels[i][j].g,
+                                      (unsigned char) pixels[i][j].r};
             fwrite(color,1,3,f);
         }
     }

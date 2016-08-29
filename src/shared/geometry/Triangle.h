@@ -1,5 +1,5 @@
-#ifndef RAYTRACER_TRIANGE_H
-#define RAYTRACER_TRIANGE_H
+#ifndef RAYTRACER_TRIANGLE_H
+#define RAYTRACER_TRIANGLE_H
 
 #include "shared/geometry/Object.h"
 
@@ -9,4 +9,4 @@ public:
     Vector3 getNormalAt(const Vector3 v) override;
 };
 
-#endif //RAYTRACER_TRIANGE_H
+#endif //RAYTRACER_TRIANGLE_H
