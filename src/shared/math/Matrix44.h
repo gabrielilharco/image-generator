@@ -14,6 +14,7 @@ public:
     Matrix44 (std::vector<double>);
 
     std::vector<double> getRows() const;
+    void print() const;
 
     static Matrix44 inverse(const Matrix44& mat);
     static Matrix44 identity();

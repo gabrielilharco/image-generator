@@ -3,7 +3,7 @@
 //
 
 #include "CameraRasterization.h"
-CameraRasterization::CameraRasterization(const Matrix44 &transform,
+CameraRasterization::CameraRasterization(const Matrix44 transform,
                                          const double distanceToViewport,
                                          const double width,
                                          const double height)

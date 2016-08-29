@@ -1,6 +1,7 @@
 //
 // Created by leao on 28/08/16.
 //
+#include <iostream>
 #include "Matrix44.h"
 
 Matrix44::Matrix44 () {
@@ -159,4 +160,13 @@ Matrix44 Matrix44::inverse (const Matrix44& mat) {
         inv[i] = inv[i] / det;
 
     return Matrix44(inv);
+}
+
+void Matrix44::print() const {
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            std::cout << matrix_[i][j] << " ";
+        }
+        std::cout << std::endl;
+    }
 }

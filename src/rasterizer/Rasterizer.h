@@ -24,7 +24,7 @@ class Rasterizer {
     std::vector<std::vector<double>> zBuffer;
     Image* renderedImage;
 
-    std::vector<Triangle> transformTrianglesToCameraCoords(const WorldScene &scene);
+    std::vector<Triangle> transformTrianglesToCameraCoords(const std::vector<Triangle> &triangles, const CameraRasterization &camera);
     std::vector<TriangleOnViewport> transformTrianglesToViewportCoords(const std::vector<Triangle> &triangles, const CameraRasterization &camera);
     Image fillPixelsOnFinalImage(const std::vector<TriangleOnViewport> &triangles);
 

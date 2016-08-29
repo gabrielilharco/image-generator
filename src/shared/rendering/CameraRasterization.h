@@ -9,10 +9,10 @@
 
 class CameraRasterization {
  public:
-    CameraRasterization(const Matrix44 &transform, const double distanceToViewport,
+    CameraRasterization(const Matrix44 transform, const double distanceToViewport,
         const double width, const double height);
 
-    const Matrix44 &transform;
+    const Matrix44 transform;
     const double distanceToViewport;
     const double width;
     const double height;
