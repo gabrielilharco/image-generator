@@ -7,6 +7,7 @@
 #include <math.h>
 
 void RayTracer::render(const WorldScene &ws, const Camera& camera, Image* image) {
+    Image *imCopy = new Image(image->width, image->height, image->dpi);
     double pixelSizeX = (camera.top_left-camera.top_right).abs()/image->width;
     double pixelSizeY = (camera.top_left-camera.bot_left).abs()/image->height;
     Vector3 cameraHorizontal = (camera.top_right-camera.top_left).normalize();
@@ -47,12 +48,34 @@ void RayTracer::render(const WorldScene &ws, const Camera& camera, Image* image)
                     }
                     double cos = norm.dot(lightDir);
                     if (cos < 0)
-                        image->pixels[h][w] = image->pixels[h][w] + light->colorAt(intercPoint) * intercObj->color * transmission * fabs(cos);
+                        imCopy->pixels[h][w] = imCopy->pixels[h][w] +
+                                light->colorAt(intercPoint) * intercObj->color * transmission * fabs(cos);
                 }
 
             }
         }
     }
+    //without post processing
+//    image->pixels = imCopy->pixels;
+
+    //post processing
+    for (int h = 0; h < image->height; h++) {
+        for (int w = 0; w < image->width; w++) {
+
+            Color color(0,0,0);
+            int numEle = 0;
+            for (int i = -1; i <= 1; i+=2) {
+                for (int j = -1; j <= 1; j++) {
+                    if (h + i < 0 || h + i >= image->height) continue;
+                    if (w + j < 0 || w + j >= image->width) continue;
+                    numEle++;
+                    color = color + imCopy->pixels[h + i][w + j];
+                }
+            }
+            image->pixels[h][w] = Color(color.r /numEle, color.g / numEle, color.b /numEle);
+        }
+    }
+
     image->normalize();
     image->saveToFile("test.bmp", image->dpi);
 }
