@@ -2,7 +2,6 @@
 // Created by leao on 28/08/16.
 //
 #include "Matrix44.h"
-#include <vector>
 
 Matrix44::Matrix44 () {
     for(int i = 0; i < 4; i++) {

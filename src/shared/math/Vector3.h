@@ -2,6 +2,8 @@
 #define RAYTRACER_VECTOR3_H
 
 
+#include "Matrix44.h"
+
 class Vector3 {
 public:
     double x, y, z;
@@ -16,6 +18,7 @@ public:
     Vector3 operator - (const Vector3&) const;
     Vector3 operator * (double) const;
     Vector3 operator * (const Vector3&) const;
+    Vector3 operator * (const Matrix44&) const;
     Vector3 normalize ();
     double dot(const Vector3&);
     Vector3 cross(const Vector3&);
