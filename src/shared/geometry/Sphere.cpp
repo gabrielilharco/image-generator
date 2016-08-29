@@ -36,3 +36,10 @@ Sphere::Sphere (double r, Vector3 o) {
     radius = r;
     center = o;
 };
+
+Sphere::Sphere (double r, Vector3 o, Color c) {
+    radius = r;
+    center = o;
+    color = c;
+};
+

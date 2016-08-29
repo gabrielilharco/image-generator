@@ -1,4 +1,4 @@
-#include "shared/rendering/Image.h"
+#include "Image.h"
 
 Image::Image (unsigned long  width, unsigned long  height) {
     vector<vector<Color> > p(height, vector<Color>(width));
@@ -9,7 +9,27 @@ Image::Image (vector<vector<Color>> p) {
     pixels = p;
 }
 
-void Image::saveToFile (const char * filename, int dpi) const {
+void Image::normalize () {
+    unsigned long  height = pixels.size();
+    unsigned long  width = pixels[0].size();
+    double mx = 0;
+    for (unsigned long  i = 0; i < height; i++) {
+        for (unsigned long j = 0; j < width; j++) {
+            mx = max(max(mx, pixels[i][j].r), max(pixels[i][j].g, pixels[i][j].b));
+        }
+    }
+    if (mx != 0) {
+        for (unsigned long  i = 0; i < height; i++) {
+            for (unsigned long j = 0; j < width; j++) {
+                pixels[i][j].r = (int)(pixels[i][j].r*(255.0/mx));
+                pixels[i][j].g = (int)(pixels[i][j].g*(255.0/mx));
+                pixels[i][j].b = (int)(pixels[i][j].b*(255.0/mx));
+            }
+        }
+    }
+}
+
+void Image::saveToFile (const char * filename, int dpi) const{
     FILE *f;
     unsigned long  height = pixels.size();
     unsigned long  width = pixels[0].size();

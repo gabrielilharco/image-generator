@@ -9,16 +9,13 @@
 
 int rayTracer() {
     WorldScene scene;
-    Sphere * s = new Sphere(4, Vector3(0,0,10));
-    s->color = Color(1,0,0);
-    scene.addObject(s);
-    Light * l = new DirectionalLight(Color(1,1,1), Vector3(1,1,1));
-    scene.addLight(l);
-
-
+    scene.addObject(new Sphere(4, Vector3(0,0,10), Color(1,0,0)));
+    scene.addObject(new Sphere(1.5, Vector3(-2,0,5), Color(0,1,0)));
+    //scene.addLight(new DirectionalLight(Color(1,1,1), Vector3(1,0,0)));
+    scene.addLight(new DirectionalLight(Color(1,1,1), Vector3(1,1,1)));
     //camera
-    int height = 480;
-    int width = 640;
+    int height = 4800;
+    int width = 6400;
     Camera camera(width, height);
 
     int dpi = 72;
@@ -47,17 +44,18 @@ int rayTracer() {
 
                     Light * light =  scene.lights()[i];
                     Vector3 lightDir = light->directionAt(intercPoint);
+                    Ray lightRay(intercPoint, lightDir*-1);
 
-                    Color transmission(1,1,1);
+                    // diffuse
+                    double transmission = 1;
                     for (int j = 0; j < scene.objects().size(); j++) {
                         if (scene.objects()[j] == intercObj) continue;
 
-                        Ray lightRay(intercPoint, lightDir);
                         double dist = scene.objects()[j]->getFirstIntersection(lightRay);
 
                         //if intersects
-                        if (dist >= 0) {
-                            transmission = Color(0,0,0);
+                        if (dist != INF) {
+                            transmission = 0;
                             break;
                         }
                     }
@@ -66,11 +64,10 @@ int rayTracer() {
                         image->pixels[h][w] = image->pixels[h][w] + light->colorAt(intercPoint) * intercObj->color * transmission * fabs(cos);
                 }
 
-                image->pixels[h][w] = (image->pixels[h][w])*255;
             }
         }
     }
-
+    image->normalize();
     image->saveToFile("test.bmp",dpi);
 
     return 0;
@@ -83,7 +80,7 @@ int rasterization() {
                       Vector3(0.5, -0.5, -3));
     scene.addObject(&triangle);
     Rasterizer rasterizer(scene, 640, 480);
-    rasterizer.renderImage().saveToFile("testRasterization.bmp", 72);
+    (rasterizer.renderImage()).saveToFile("testRasterization.bmp", 72);
     return 0;
 }
 

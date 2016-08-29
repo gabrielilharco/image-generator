@@ -17,6 +17,7 @@ public:
 	Image(unsigned long width, unsigned long height);
 	Image(vector<vector<Color>> pixels);
 
+	void normalize ();
 	void saveToFile(const char * filename, int dpi) const;
 };
 
