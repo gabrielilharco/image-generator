@@ -6,22 +6,27 @@
 #define IMAGE_GENERATOR_WORLDSCENE_H
 
 #include <vector>
+#include "shared/geometry/Sphere.h"
+#include "shared/geometry/Triangle.h"
 #include "shared/geometry/Object.h"
 #include "shared/rendering/Light.h"
 
-using namespace std;
-
 class WorldScene {
 public:
-    void addObject(Object* obj);
-    void addLight(Light* l);
-    const vector<Object *> objects() const {return listOfObjects;}
-    const vector<Light *> lights() const {return listOfLights;}
-    double getFirstIntersection(const Ray& ray, Object* &obj) const;
+    void addTriangle(Triangle *triangle);
+    void addSphere(Sphere *sphere);
+    void addLight(Light *light);
+    const std::vector<Object*> &objects() const;
+    const std::vector<Sphere*> &spheres() const;
+    const std::vector<Triangle*> &triangles() const;
+    const std::vector<Light*> &lights() const;
+    double getFirstIntersection(const Ray &ray, Object* &obj) const;
 
 private:
-    vector<Object *> listOfObjects;
-    vector<Light *> listOfLights;
+    std::vector<Object*> listOfObjects;
+    std::vector<Sphere*> listOfSpheres;
+    std::vector<Triangle*> listOfTriangles;
+    std::vector<Light*> listOfLights;
 };
 
 
