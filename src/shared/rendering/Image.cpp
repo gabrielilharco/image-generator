@@ -1,6 +1,8 @@
 #include "Image.h"
 
-Image::Image (unsigned long  width, unsigned long  height) {
+Image::Image (unsigned long  width, unsigned long  height, unsigned int dpi) :
+    width(width), height(height), dpi(dpi) {
+
     vector<vector<Color> > p(height, vector<Color>(width));
     pixels = p;
 }

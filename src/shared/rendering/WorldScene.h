@@ -17,7 +17,7 @@ public:
     void addLight(Light* l);
     const vector<Object *> objects() const {return listOfObjects;}
     const vector<Light *> lights() const {return listOfLights;}
-    double getFirstIntersection(const Ray& ray, Object* &obj);
+    double getFirstIntersection(const Ray& ray, Object* &obj) const;
 
 private:
     vector<Object *> listOfObjects;

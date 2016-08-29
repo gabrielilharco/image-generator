@@ -5,6 +5,7 @@
 #ifndef IMAGE_GENERATOR_RAYTRACER_H
 #define IMAGE_GENERATOR_RAYTRACER_H
 
+#include "shared/rendering/Camera.h"
 #include "shared/rendering/Image.h"
 #include "shared/rendering/WorldScene.h"
 #include "shared/rendering/Color.h"
@@ -12,12 +13,11 @@
 
 class RayTracer {
 public:
-    void render(const WorldScene& ws);
-    const Image& getImage();
+    RayTracer() {}
+
+    void render(const WorldScene& ws, const Camera& camera, Image* image);
 
 private:
-    Image generatedImage;
-
     Color traceRay(const Ray& originalRay);
 };
 

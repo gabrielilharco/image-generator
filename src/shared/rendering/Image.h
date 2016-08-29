@@ -12,9 +12,13 @@ using namespace std;
 
 class Image {
 public:
+	unsigned long width;
+	unsigned long height;
+    unsigned int dpi;
+
 	vector<vector<Color>> pixels;
 
-	Image(unsigned long width, unsigned long height);
+	Image(unsigned long width, unsigned long height, unsigned int dpi);
 	Image(vector<vector<Color>> pixels);
 
 	void normalize ();

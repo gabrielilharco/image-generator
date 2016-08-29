@@ -14,7 +14,7 @@ void WorldScene::addLight(Light *l) {
     listOfLights.push_back(l);
 }
 
-double WorldScene::getFirstIntersection(const Ray &ray, Object* &obj) {
+double WorldScene::getFirstIntersection(const Ray &ray, Object* &obj) const {
     double distanceToFirst = INF;
     double currentDistance;
     for (int i = 0; i < listOfObjects.size(); i++) {

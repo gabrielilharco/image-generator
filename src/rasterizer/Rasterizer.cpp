@@ -71,6 +71,6 @@ std::vector<TriangleOnViewport> Rasterizer::transformTrianglesToViewportCoords(c
 }
 
 Image Rasterizer::fillPixelsOnFinalImage(const std::vector<TriangleOnViewport> &triangles) {
-    Image stub(640, 480);
+    Image stub(640, 480, 72);
     return stub;
 }
