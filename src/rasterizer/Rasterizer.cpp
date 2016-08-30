@@ -8,7 +8,7 @@
 
 Rasterizer::Rasterizer(const WorldScene &scene, const unsigned int imageWidth, const unsigned int imageHeight)
     : scene(scene), imageWidth(imageWidth), imageHeight(imageHeight),
-      camera (CameraRasterization(Matrix44::inverse(Matrix44(std::vector<double>{0, 1, 0, 0,
+      camera (Camera(Matrix44::inverse(Matrix44(std::vector<double>{0, 1, 0, 0,
                                                                                  0, 0, 1, 0,
                                                                                  1, 0, 0, 0,
                                                                                  1, 2, 3, 1})),
@@ -32,19 +32,19 @@ const Image Rasterizer::renderImage() {
 }
 
 
-std::vector<Triangle> Rasterizer::transformTrianglesToCameraCoords(const std::vector<Triangle> &triangles, const CameraRasterization &camera) {
+std::vector<Triangle> Rasterizer::transformTrianglesToCameraCoords(const std::vector<Triangle> &triangles, const Camera &camera) {
     std::vector<Triangle> result;
     Vector3 aOnCameraCoords, bOnCameraCoords, cOnCameraCoords;
     for (int i = 0; i < triangles.size(); i++) {
-        aOnCameraCoords = triangles[i].a * camera.transform;
-        bOnCameraCoords = triangles[i].b * camera.transform;
-        cOnCameraCoords = triangles[i].c * camera.transform;
+        aOnCameraCoords = triangles[i].a * camera.worldToCamTransform;
+        bOnCameraCoords = triangles[i].b * camera.worldToCamTransform;
+        cOnCameraCoords = triangles[i].c * camera.worldToCamTransform;
         result.push_back(Triangle(aOnCameraCoords, bOnCameraCoords, cOnCameraCoords));
     }
     return result;
 }
 
-std::vector<TriangleProjection> Rasterizer::transformTrianglesToViewportCoords(const std::vector<Triangle> &triangles, const CameraRasterization &camera) {
+std::vector<TriangleProjection> Rasterizer::transformTrianglesToViewportCoords(const std::vector<Triangle> &triangles, const Camera &camera) {
     // Viewport coordinates are from -1 to 1
     std::vector<TriangleProjection> result;
     Vector2 aOnViewport, bOnViewport, cOnViewport;

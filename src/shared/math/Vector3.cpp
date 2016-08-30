@@ -38,7 +38,7 @@ Vector3 Vector3::operator*(const Vector3 & v) const {
 }
 
 Vector3 Vector3::operator * (const Matrix44& mat) const {
-    std::vector<double> m = mat.getRows();
+    std::vector<double> m = mat.getRowsAsVector();
     return Vector3(x*m[0] + y*m[1*4+0] + z*m[2*4+0] + m[3*4+0],
                    x*m[1] + y*m[1*4+1] + z*m[2*4+1] + m[3*4+1],
                    x*m[2] + y*m[1*4+2] + z*m[2*4+2] + m[3*4+2]);

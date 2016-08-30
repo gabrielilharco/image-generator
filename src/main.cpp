@@ -1,6 +1,5 @@
 #include "shared/rendering/Image.h"
 #include "shared/rendering/WorldScene.h"
-#include "shared/rendering/Camera.h"
 #include "shared/rendering/DirectionalLight.h"
 #include "rasterizer/Rasterizer.h"
 #include "raytracer/RayTracer.h"
@@ -16,9 +15,12 @@ int rayTracer() {
     //scene.addLight(new DirectionalLight(Color(1,1,1), Vector3(1,0,0)));
     scene.addLight(new DirectionalLight(Color(1,1,1), Vector3(1,1,1)));
     //camera
-    unsigned int height = 4800;
-    unsigned int width = 6400;
-    Camera camera(width, height);
+    unsigned int height = 480;
+    unsigned int width = 640;
+    Camera camera(Matrix44(std::vector<double> {-1, 0, 0, 0,
+                                                 0, 1, 0, 0,
+                                                 0, 0,-1, 0,
+                                                 0, 0,-10,0}), 10, 20, 15);
 
     int dpi = 72;
 

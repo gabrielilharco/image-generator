@@ -42,10 +42,10 @@ Color RayTracer::traceRay(const Ray& ray, const WorldScene& ws) {
 
 void RayTracer::render(const WorldScene &ws, const Camera& camera, Image* image) {
 
-    double pixelSizeX = (camera.top_left-camera.top_right).abs()/image->width;
-    double pixelSizeY = (camera.top_left-camera.bot_left).abs()/image->height;
-    Vector3 cameraHorizontal = (camera.top_right-camera.top_left).normalize();
-    Vector3 cameraVertical = (camera.bot_left-camera.top_left).normalize();
+    double pixelSizeX = (camera.calculateTopLeft()-camera.calculateTopRight()).abs()/image->width;
+    double pixelSizeY = (camera.calculateTopLeft()-camera.calculateBottomLeft()).abs()/image->height;
+    Vector3 cameraHorizontal = (camera.calculateTopRight()-camera.calculateTopLeft()).normalize();
+    Vector3 cameraVertical = (camera.calculateBottomLeft()-camera.calculateTopLeft()).normalize();
 
     for (int h = 0; h < image->height; h++) {
         for (int w = 0; w < image->width; w++) {
@@ -53,8 +53,8 @@ void RayTracer::render(const WorldScene &ws, const Camera& camera, Image* image)
             double yIncrement = pixelSizeY/(samplesSqrtPerPixel+1);
             for (int i = 1; i <= samplesSqrtPerPixel; i++){
                 for (int j = 1; j <= samplesSqrtPerPixel; j++) {
-                    Vector3 currentPosition = camera.top_left + cameraHorizontal*((w+i*xIncrement)*pixelSizeX) + cameraVertical*((h+j*yIncrement)*pixelSizeY);
-                    Ray ray(camera.origin, currentPosition - camera.origin);
+                    Vector3 currentPosition = camera.calculateTopLeft() + cameraHorizontal*((w+i*xIncrement)*pixelSizeX) + cameraVertical*((h+j*yIncrement)*pixelSizeY);
+                    Ray ray(camera.calculateOrigin(), currentPosition - camera.calculateOrigin());
                     image->pixels[h][w] = image->pixels[h][w] + traceRay(ray, ws);
                 }
             }

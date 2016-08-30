@@ -25,7 +25,7 @@ Matrix44 Matrix44::identity () {
     return Matrix44();
 }
 
-std::vector<double> Matrix44::getRows() const {
+std::vector<double> Matrix44::getRowsAsVector() const {
     std::vector<double> rows;
     for(int i = 0; i < 4; i++) {
         for(int j = 0; j < 4; j++) {
@@ -37,7 +37,7 @@ std::vector<double> Matrix44::getRows() const {
 
 Matrix44 Matrix44::inverse (const Matrix44& mat) {
     std::vector<double> inv(16);
-    std::vector<double> m = mat.getRows();
+    std::vector<double> m = mat.getRowsAsVector();
 
     inv[0] = m[5]  * m[10] * m[15] -
              m[5]  * m[11] * m[14] -
@@ -169,4 +169,7 @@ void Matrix44::print() const {
         }
         std::cout << std::endl;
     }
+}
+const double Matrix44::get(const int i, const int j) const {
+    return 0;
 }

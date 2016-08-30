@@ -1,22 +1,37 @@
-#include "shared/rendering/Camera.h"
+//
+// Created by matheus on 8/28/16.
+//
 
-Camera::Camera (int w, int h) {
-    height = h;
-    width = w;
-    double scale = 1.0*w/h;
-    origin    = Vector3(  0,  0,-10);
-    top_left  = Vector3(-10, 10/scale, 0);
-    top_right = Vector3( 10, 10/scale, 0);
-    bot_left  = Vector3(-10,-10/scale, 0);
-    bot_right = Vector3( 10,-10/scale, 0);
+#include "Camera.h"
+Camera::Camera(const Matrix44 transform,
+                                         const double distanceToViewport,
+                                         const double width,
+                                         const double height)
+    : camToWorldTransform(transform),
+      worldToCamTransform(Matrix44::inverse(transform)),
+      distanceToViewport(distanceToViewport),
+      width(width), height(height) {}
+
+const Vector3 Camera::calculateOrigin() const {
+    return Vector3(0, 0, 0) * camToWorldTransform;
 }
 
-Camera::Camera (Vector3 o, Vector3 tl, Vector3 tr, Vector3 bl, Vector3 br, int w, int h) {
-    height = h;
-    width = w;
-    origin = o;
-    top_left  = tl;
-    top_right = tr;
-    bot_left  = bl;
-    bot_right = br;
+const Vector3 Camera::calculateTopLeft() const {
+    return Vector3(-width * 1.0 / 2, height * 1.0 / 2, -distanceToViewport) *
+        camToWorldTransform;
+}
+
+const Vector3 Camera::calculateTopRight() const {
+    return Vector3(width * 1.0 / 2, height * 1.0 / 2, -distanceToViewport) *
+        camToWorldTransform;
+}
+
+const Vector3 Camera::calculateBottomLeft() const {
+    return Vector3(-width * 1.0 / 2, -height * 1.0 / 2, -distanceToViewport) *
+        camToWorldTransform;
+}
+
+const Vector3 Camera::calculateBottomRight() const {
+    return Vector3(width * 1.0 / 2, -height * 1.0 / 2, -distanceToViewport) *
+        camToWorldTransform;
 }

@@ -12,10 +12,9 @@ private:
 public:
     Matrix44 ();
     Matrix44 (std::vector<double>);
-
-    std::vector<double> getRows() const;
+    std::vector<double> getRowsAsVector() const;
+    const double get(const int i, const int j) const;
     void print() const;
-
     static Matrix44 inverse(const Matrix44& mat);
     static Matrix44 identity();
 };

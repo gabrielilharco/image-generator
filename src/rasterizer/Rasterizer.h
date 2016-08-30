@@ -5,7 +5,7 @@
 #ifndef IMAGE_GENERATOR_RASTERIZER_H
 #define IMAGE_GENERATOR_RASTERIZER_H
 
-#include <shared/rendering/CameraRasterization.h>
+#include "shared/rendering/Camera.h"
 #include "rasterizer/geometry/TriangleProjection.h"
 #include "shared/rendering/Image.h"
 #include "shared/geometry/Triangle.h"
@@ -24,12 +24,14 @@ class Rasterizer {
     std::vector<std::vector<double>> zBuffer;
     Image* renderedImage;
 
-    std::vector<Triangle> transformTrianglesToCameraCoords(const std::vector<Triangle> &triangles, const CameraRasterization &camera);
-    std::vector<TriangleProjection> transformTrianglesToViewportCoords(const std::vector<Triangle> &triangles, const CameraRasterization &camera);
+    std::vector<Triangle> transformTrianglesToCameraCoords(
+        const std::vector<Triangle> &triangles, const Camera &camera);
+    std::vector<TriangleProjection> transformTrianglesToViewportCoords(
+        const std::vector<Triangle> &triangles, const Camera &camera);
     Image fillPixelsOnFinalImage(const std::vector<TriangleProjection> &triangles);
 
     // Temporary!!!
-    CameraRasterization camera;
+    Camera camera;
 };
 
 
