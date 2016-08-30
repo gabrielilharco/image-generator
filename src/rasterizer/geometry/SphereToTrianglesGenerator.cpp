@@ -22,7 +22,7 @@ void SphereToTrianglesGenerator::generateUnitSphere(const int depth) {
     icosphereVertices.push_back(Vector3(-1, g, 0));
     icosphereVertices.push_back(Vector3( 1, g, 0));
     icosphereVertices.push_back(Vector3(-1,-g, 0));
-    icosphereVertices.push_back(Vector3(-1,-g, 0));
+    icosphereVertices.push_back(Vector3( 1,-g, 0));
 
     icosphereVertices.push_back(Vector3( 0,-1, g));
     icosphereVertices.push_back(Vector3( 0, 1, g));

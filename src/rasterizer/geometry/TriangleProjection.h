@@ -13,6 +13,7 @@ public:
 
     TriangleProjection(const Vector2 a, const Vector2 b, const Vector2 c, const Triangle correspondentTriangle);
     bool isInside(Vector2);
+    double interpolateDepth(Vector2);
 };
 
 #endif //RAYTRACER_TRIANGLEONVIEWPORT_H

@@ -5,6 +5,7 @@
 #include <rasterizer/geometry/BoundingBox.h>
 #include <math.h>
 #include <rasterizer/geometry/SphereToTrianglesGenerator.h>
+#include <limits>
 #include "rasterizer/Rasterizer.h"
 
 Rasterizer::Rasterizer(const WorldScene &scene, const unsigned int imageWidth, const unsigned int imageHeight)
@@ -12,7 +13,7 @@ Rasterizer::Rasterizer(const WorldScene &scene, const unsigned int imageWidth, c
       camera (Camera(Matrix44(std::vector<double>{1, 0, 0, 0,
                                                   0, 1, 0, 0,
                                                   0, 0, 1, 0,
-                                                  0, 0, 0, 1}),
+                                                  0, 0, -10, 1}),
                                                   1.0, 4.0, 3.0)) {}
 
 const Image Rasterizer::renderImage() {
@@ -26,10 +27,10 @@ const Image Rasterizer::renderImage() {
     SphereToTrianglesGenerator sphereToTriangles(1);
     const std::vector<Triangle> &triangleList = sphereToTriangles.getTriangleList();
 
-//    std::vector<Triangle> trianglesWithCameraCoords =
-//        transformTrianglesToCameraCoords(triangleList, camera);
+    std::vector<Triangle> trianglesWithCameraCoords =
+        transformTrianglesToCameraCoords(triangleList, camera);
     std::vector<TriangleProjection> trianglesOnScreen =
-        transformTrianglesToViewportCoords(triangleList, camera);
+        transformTrianglesToViewportCoords(trianglesWithCameraCoords, camera);
     Image renderedImage = fillPixelsOnFinalImage(trianglesOnScreen);
     return renderedImage;
 }
@@ -77,6 +78,14 @@ std::vector<TriangleProjection> Rasterizer::transformTrianglesToViewportCoords(c
 
 Image Rasterizer::fillPixelsOnFinalImage(const std::vector<TriangleProjection> &triangles) {
     Image stub(imageWidth, imageHeight, 72);
+
+    //Set zbuffer to infinity to all pixels
+    zBuffer.resize(imageWidth);
+    for(int i = 0; i < imageWidth; i++) {
+        zBuffer[i].resize(imageHeight);
+        zBuffer[i].assign(imageHeight, std::numeric_limits<double>::infinity());
+    }
+
     for(int i = 0; i < triangles.size(); i++) {
         Vector2 aRaster, bRaster, cRaster;
 
@@ -87,11 +96,18 @@ Image Rasterizer::fillPixelsOnFinalImage(const std::vector<TriangleProjection> &
         TriangleProjection rasterTriangle(aRaster, bRaster, cRaster, triangles[i].correspondentTriangle);
         BoundingBox boundingBox(rasterTriangle);
 
+
         for(int x = std::max(0, (int)round(boundingBox.bl.x)); x <= std::min((int)imageWidth, (int)round(boundingBox.tr.x)); x++) {
             for(int y = std::max(0, (int)round(boundingBox.bl.y)); y <= std::min((int)imageHeight, (int)round(boundingBox.tr.y)); y++) {
                 Vector2 pixel(x, y);
 
                 if(!rasterTriangle.isInside(pixel)) continue;
+
+                double z = rasterTriangle.interpolateDepth(pixel);
+                if(z < zBuffer[x][y]) {
+                    stub.pixels[y][x].r =  min(255, (int)(-255*z/0.05));
+                    zBuffer[x][y] = z;
+                }
             }
         }
     }
