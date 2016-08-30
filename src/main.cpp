@@ -16,8 +16,8 @@ int rayTracer() {
     //scene.addLight(new DirectionalLight(Color(1,1,1), Vector3(1,0,0)));
     scene.addLight(new DirectionalLight(Color(1,1,1), Vector3(1,1,1)));
     //camera
-    int height = 480;
-    int width = 640;
+    int height = 4800;
+    int width = 6400;
     Camera camera(width, height);
 
     int dpi = 72;

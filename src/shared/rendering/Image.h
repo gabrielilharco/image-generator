@@ -22,6 +22,7 @@ public:
 	Image(vector<vector<Color>> pixels);
 
 	void normalize ();
+	void antiAlias();
 	void saveToFile(const char * filename, int dpi) const;
 };
 

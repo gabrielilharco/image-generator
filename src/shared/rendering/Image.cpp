@@ -1,4 +1,5 @@
 #include "Image.h"
+#include <math.h>
 
 Image::Image (unsigned long  width, unsigned long  height, unsigned int dpi) :
     width(width), height(height), dpi(dpi) {
@@ -27,6 +28,28 @@ void Image::normalize () {
                 pixels[i][j].g = (int)(pixels[i][j].g*(255.0/mx));
                 pixels[i][j].b = (int)(pixels[i][j].b*(255.0/mx));
             }
+        }
+    }
+}
+
+void Image::antiAlias() {
+    Image auxiliarImage(pixels[0].size(), pixels.size(), dpi);
+    for (unsigned long  i = 1; i < height-1; i++) {
+        for (unsigned long j = 1; j < width-1; j++) {
+            auxiliarImage.pixels[i][j] = (
+                        pixels[i+1][j]*1
+                    +   pixels[i-1][j]*1
+                    +   pixels[i][j+1]*1
+                    +   pixels[i+1][j+1]*(1/sqrt(2))
+                    +   pixels[i+1][j-1]*(1/sqrt(2))
+                    +   pixels[i-1][j+1]*(1/sqrt(2))
+                    +   pixels[i-1][j-1]*(1/sqrt(2))
+            )*(1.0/(4+4/sqrt(2)));
+        }
+    }
+    for (unsigned long  i = 0; i < height; i++) {
+        for (unsigned long j = 0; j < width; j++) {
+            pixels[i][j] = auxiliarImage.pixels[i][j];
         }
     }
 }
