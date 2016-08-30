@@ -23,7 +23,7 @@ int rayTracer() {
     int dpi = 72;
 
     Image * image = new Image(width, height, dpi);
-    RayTracer rayTracer;
+    RayTracer rayTracer(2);
     rayTracer.render(scene, camera, image);
 
     return 0;

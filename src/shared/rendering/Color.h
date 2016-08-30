@@ -11,6 +11,7 @@ class Color {
 	    Color operator * (double);
         Color operator * (Color);
         Color operator + (Color);
+		Color operator / (double);
 };
 
 #endif

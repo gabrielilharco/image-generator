@@ -24,3 +24,7 @@ Color Color::operator+(Color c) {
     return Color(r+c.r, g+c.g, b+c.b);
 }
 
+Color Color::operator/(double d) {
+    return Color(r/d, g/d, b/d);
+}
+

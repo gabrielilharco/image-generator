@@ -34,17 +34,21 @@ void Image::normalize () {
 
 void Image::antiAlias() {
     Image auxiliarImage(pixels[0].size(), pixels.size(), dpi);
-    for (unsigned long  i = 1; i < height-1; i++) {
-        for (unsigned long j = 1; j < width-1; j++) {
-            auxiliarImage.pixels[i][j] = (
-                        pixels[i+1][j]*1
-                    +   pixels[i-1][j]*1
-                    +   pixels[i][j+1]*1
-                    +   pixels[i+1][j+1]*(1/sqrt(2))
-                    +   pixels[i+1][j-1]*(1/sqrt(2))
-                    +   pixels[i-1][j+1]*(1/sqrt(2))
-                    +   pixels[i-1][j-1]*(1/sqrt(2))
-            )*(1.0/(4+4/sqrt(2)));
+    // TODO: refactor
+    int x_inc[] = { 1,-1, 0, 0, 1, 1,-1,-1, 2, 0,-2, 0, 2, 1, 2,-1,-2, 1,-2,-1, 2,-2, 2,-2};
+    int y_inc[] = { 0, 0, 1,-1, 1,-1, 1,-1, 0, 2, 0,-2, 1, 2,-1, 2, 1,-2,-1,-2, 2,-2,-2, 2};
+    double weight_sum = 0;
+    double weight;
+    for (unsigned long  i = 2; i < height-2; i++) {
+        for (unsigned long j = 2; j < width-2; j++) {
+            auxiliarImage.pixels[i][j] = Color(0,0,0);
+            for (int k = 0; k < 24; k++) {
+                weight = 1; //1.0/sqrt(x_inc[k]*x_inc[k] + y_inc[k]*y_inc[k]);
+                auxiliarImage.pixels[i][j] =
+                        auxiliarImage.pixels[i][j] + pixels[i + x_inc[k]][j + y_inc[k]] * weight;
+                weight_sum += weight;
+            }
+            auxiliarImage.pixels[i][j] = auxiliarImage.pixels[i][j]/weight_sum;
         }
     }
     for (unsigned long  i = 0; i < height; i++) {
