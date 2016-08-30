@@ -33,12 +33,14 @@ int rayTracer() {
 
 int rasterization() {
     WorldScene scene;
-    Triangle triangle(Vector3(-0.5, -0.5, -3),
-                      Vector3(0.0, 0.5, -3),
-                      Vector3(0.5, -0.5, -3));
-    scene.addTriangle(&triangle);
+//    Triangle triangle(Vector3(-0.5, -0.5, -3),
+//                      Vector3(0.0, 0.5, -3),
+//                      Vector3(0.5, -0.5, -3));
+//    scene.addTriangle(&triangle);
+    scene.addSphere(new Sphere(4, Vector3(0,0,10), Color(1,0,0)));
+    scene.addSphere(new Sphere(1.5, Vector3(-2,0,5), Color(0,1,0)));
     Rasterizer rasterizer(scene, 640, 480);
-    (rasterizer.renderImage()).saveToFile("testRasterization.bmp", 72);
+    rasterizer.renderImage().saveToFile("testRasterization.bmp", 72);
     return 0;
 }
 

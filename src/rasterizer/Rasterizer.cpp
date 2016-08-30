@@ -4,29 +4,32 @@
 
 #include <rasterizer/geometry/BoundingBox.h>
 #include <math.h>
+#include <rasterizer/geometry/SphereToTrianglesGenerator.h>
 #include "rasterizer/Rasterizer.h"
 
 Rasterizer::Rasterizer(const WorldScene &scene, const unsigned int imageWidth, const unsigned int imageHeight)
     : scene(scene), imageWidth(imageWidth), imageHeight(imageHeight),
-      camera (Camera(Matrix44::inverse(Matrix44(std::vector<double>{0, 1, 0, 0,
-                                                                                 0, 0, 1, 0,
-                                                                                 1, 0, 0, 0,
-                                                                                 1, 2, 3, 1})),
-                                                                                 1.0, 4.0, 3.0)) {}
+      camera (Camera(Matrix44(std::vector<double>{1, 0, 0, 0,
+                                                  0, 1, 0, 0,
+                                                  0, 0, 1, 0,
+                                                  0, 0, 0, 1}),
+                                                  1.0, 4.0, 3.0)) {}
 
 const Image Rasterizer::renderImage() {
     // Mock triangle list with coords related to camera:
-    Vector3 a(-0.5, -0.5, -3.0);
-    Vector3 b(0.0, 0.5, -3.0);
-    Vector3 c(0.5, -0.5, -3.0);
-    Triangle t(a, b, c);
+//    Vector3 a(-0.5, -0.5, -3.0);
+//    Vector3 b(0.0, 0.5, -3.0);
+//    Vector3 c(0.5, -0.5, -3.0);
+//    Triangle t(a, b, c);
     std::vector<Triangle> mockTriangleList;
-    mockTriangleList.push_back(t);
 
-    std::vector<Triangle> trianglesWithCameraCoords =
-        transformTrianglesToCameraCoords(mockTriangleList, camera);
+    SphereToTrianglesGenerator sphereToTriangles(1);
+    const std::vector<Triangle> &triangleList = sphereToTriangles.getTriangleList();
+
+//    std::vector<Triangle> trianglesWithCameraCoords =
+//        transformTrianglesToCameraCoords(triangleList, camera);
     std::vector<TriangleProjection> trianglesOnScreen =
-        transformTrianglesToViewportCoords(mockTriangleList, camera);
+        transformTrianglesToViewportCoords(triangleList, camera);
     Image renderedImage = fillPixelsOnFinalImage(trianglesOnScreen);
     return renderedImage;
 }
