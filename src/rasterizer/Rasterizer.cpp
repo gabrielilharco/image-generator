@@ -2,6 +2,8 @@
 // Created by matheus on 8/28/16.
 //
 
+#include <rasterizer/geometry/BoundingBox.h>
+#include <math.h>
 #include "rasterizer/Rasterizer.h"
 
 Rasterizer::Rasterizer(const WorldScene &scene, const unsigned int imageWidth, const unsigned int imageHeight)
@@ -23,7 +25,7 @@ const Image Rasterizer::renderImage() {
 
     std::vector<Triangle> trianglesWithCameraCoords =
         transformTrianglesToCameraCoords(mockTriangleList, camera);
-    std::vector<TriangleOnViewport> trianglesOnScreen =
+    std::vector<TriangleProjection> trianglesOnScreen =
         transformTrianglesToViewportCoords(mockTriangleList, camera);
     Image renderedImage = fillPixelsOnFinalImage(trianglesOnScreen);
     return renderedImage;
@@ -42,9 +44,9 @@ std::vector<Triangle> Rasterizer::transformTrianglesToCameraCoords(const std::ve
     return result;
 }
 
-std::vector<TriangleOnViewport> Rasterizer::transformTrianglesToViewportCoords(const std::vector<Triangle> &triangles, const CameraRasterization &camera) {
+std::vector<TriangleProjection> Rasterizer::transformTrianglesToViewportCoords(const std::vector<Triangle> &triangles, const CameraRasterization &camera) {
     // Viewport coordinates are from -1 to 1
-    std::vector<TriangleOnViewport> result;
+    std::vector<TriangleProjection> result;
     Vector2 aOnViewport, bOnViewport, cOnViewport;
 
     for (int i = 0; i < triangles.size(); i++) {
@@ -64,13 +66,31 @@ std::vector<TriangleOnViewport> Rasterizer::transformTrianglesToViewportCoords(c
         cOnViewport.x /= (camera.width / 2);
         cOnViewport.y /= (camera.height / 2);
 
-        result.push_back(TriangleOnViewport(aOnViewport, bOnViewport, cOnViewport, triangles[i]));
+        result.push_back(TriangleProjection(aOnViewport, bOnViewport, cOnViewport, triangles[i]));
     }
 
     return result;
 }
 
-Image Rasterizer::fillPixelsOnFinalImage(const std::vector<TriangleOnViewport> &triangles) {
-    Image stub(640, 480, 72);
+Image Rasterizer::fillPixelsOnFinalImage(const std::vector<TriangleProjection> &triangles) {
+    Image stub(imageWidth, imageHeight, 72);
+    for(int i = 0; i < triangles.size(); i++) {
+        Vector2 aRaster, bRaster, cRaster;
+
+        aRaster = Vector2((triangles[i].a.x + 1)/2 * imageWidth, (triangles[i].a.y + 1)/2 * imageHeight);
+        bRaster = Vector2((triangles[i].b.x + 1)/2 * imageWidth, (triangles[i].b.y + 1)/2 * imageHeight);
+        cRaster = Vector2((triangles[i].c.x + 1)/2 * imageWidth, (triangles[i].c.y + 1)/2 * imageHeight);
+
+        TriangleProjection rasterTriangle(aRaster, bRaster, cRaster, triangles[i].correspondentTriangle);
+        BoundingBox boundingBox(rasterTriangle);
+
+        for(int x = std::max(0, (int)round(boundingBox.bl.x)); x <= std::min((int)imageWidth, (int)round(boundingBox.tr.x)); x++) {
+            for(int y = std::max(0, (int)round(boundingBox.bl.y)); y <= std::min((int)imageHeight, (int)round(boundingBox.tr.y)); y++) {
+                Vector2 pixel(x, y);
+
+                if(!rasterTriangle.isInside(pixel)) continue;
+            }
+        }
+    }
     return stub;
 }

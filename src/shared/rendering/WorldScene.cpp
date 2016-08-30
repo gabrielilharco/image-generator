@@ -4,14 +4,34 @@
 
 #include "shared/rendering/WorldScene.h"
 
-#include <math.h>
-
-void WorldScene::addObject(Object *obj) {
-    listOfObjects.push_back(obj);
+void WorldScene::addTriangle(Triangle *triangle) {
+    listOfTriangles.push_back(triangle);
+    listOfObjects.push_back(triangle);
 }
 
-void WorldScene::addLight(Light *l) {
-    listOfLights.push_back(l);
+void WorldScene::addSphere(Sphere *sphere) {
+    listOfSpheres.push_back(sphere);
+    listOfObjects.push_back(sphere);
+}
+
+void WorldScene::addLight(Light *light) {
+    listOfLights.push_back(light);
+}
+
+const std::vector<Object*> &WorldScene::objects() const {
+    return listOfObjects;
+}
+
+const std::vector<Sphere*> &WorldScene::spheres() const {
+    return listOfSpheres;
+}
+
+const std::vector<Triangle*> &WorldScene::triangles() const {
+    return listOfTriangles;
+}
+
+const std::vector<Light*> &WorldScene::lights() const {
+    return listOfLights;
 }
 
 double WorldScene::getFirstIntersection(const Ray &ray, Object* &obj) const {
