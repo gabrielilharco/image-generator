@@ -15,12 +15,12 @@ int rayTracer() {
     //scene.addLight(new DirectionalLight(Color(1,1,1), Vector3(1,0,0)));
     scene.addLight(new DirectionalLight(Color(1,1,1), Vector3(1,1,1)));
     //camera
-    unsigned int height = 480;
-    unsigned int width = 640;
+    unsigned int height = 480*4;
+    unsigned int width = 640*4;
     Camera camera(Matrix44(std::vector<double> {-1, 0, 0, 0,
                                                  0, 1, 0, 0,
                                                  0, 0,-1, 0,
-                                                 0, 0,-10,0}), 10, 20, 15);
+                                                 0, 0,-6,0}), 10, 20, 15);
 
     int dpi = 72;
 

@@ -105,7 +105,7 @@ Image Rasterizer::fillPixelsOnFinalImage(const std::vector<TriangleProjection> &
 
                 double z = rasterTriangle.interpolateDepth(pixel);
                 if(z < zBuffer[x][y]) {
-                    stub.pixels[y][x].r =  min(255, (int)(-255*z/0.05));
+                    stub.pixels[y][x].r =  min(255, (int)(255*z/0.05));
                     zBuffer[x][y] = z;
                 }
             }
