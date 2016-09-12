@@ -37,9 +37,12 @@ Sphere::Sphere (double r, Vector3 o) {
     center = o;
 };
 
-Sphere::Sphere (double r, Vector3 o, Color c) {
+Sphere::Sphere (double r, Vector3 o, Color c, double ref, double trans) {
     radius = r;
     center = o;
     color = c;
+    reflection = ref;
+    transparency = trans;
 };
+
 

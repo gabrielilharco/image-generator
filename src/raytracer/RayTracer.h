@@ -13,13 +13,14 @@
 
 class RayTracer {
 public:
-    RayTracer(int sspp = 1) { samplesSqrtPerPixel = sspp;}
+    RayTracer(int sspp = 1, int md = 1) { samplesSqrtPerPixel = sspp; max_depth=md;}
 
     void render(const WorldScene& ws, const Camera& camera, Image* image);
 
 private:
+    int max_depth;
     int samplesSqrtPerPixel;
-    Color traceRay(const Ray& originalRay, const WorldScene& ws);
+    Color traceRay(const Ray& originalRay, const WorldScene& ws, int depth);
 };
 
 

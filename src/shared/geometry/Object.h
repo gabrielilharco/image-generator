@@ -15,7 +15,7 @@ enum Material {
 
 class Object {
 public:
-    Material material;
+    double reflection, transparency;
     Color color;
 
     virtual double getFirstIntersection (const Ray& ray) = 0;

@@ -10,13 +10,13 @@
 
 int rayTracer() {
     WorldScene scene;
-    scene.addSphere(new Sphere(4, Vector3(0,0,10), Color(1,0,0)));
-    scene.addSphere(new Sphere(1.5, Vector3(-2,0,5), Color(0,1,0)));
+    scene.addSphere(new Sphere(4, Vector3(0,0,10), Color(1,0,0), 0, 1));
+    scene.addSphere(new Sphere(1.5, Vector3(-2,0,5), Color(0,1,0), 0, 0));
     //scene.addLight(new DirectionalLight(Color(1,1,1), Vector3(1,0,0)));
     scene.addLight(new DirectionalLight(Color(1,1,1), Vector3(1,1,1)));
     //camera
-    unsigned int height = 480*4;
-    unsigned int width = 640*4;
+    unsigned int height = 480*2;
+    unsigned int width = 640*2;
     Camera camera(Matrix44(std::vector<double> {-1, 0, 0, 0,
                                                  0, 1, 0, 0,
                                                  0, 0,-1, 0,
@@ -25,7 +25,7 @@ int rayTracer() {
     int dpi = 72;
 
     Image * image = new Image(width, height, dpi);
-    RayTracer rayTracer(2);
+    RayTracer rayTracer(1, 3);
     rayTracer.render(scene, camera, image);
 
     return 0;
@@ -37,8 +37,8 @@ int rasterization() {
 //                      Vector3(0.0, 0.5, -3),
 //                      Vector3(0.5, -0.5, -3));
 //    scene.addTriangle(&triangle);
-    scene.addSphere(new Sphere(4, Vector3(0,0,10), Color(1,0,0)));
-    scene.addSphere(new Sphere(1.5, Vector3(-2,0,5), Color(0,1,0)));
+    scene.addSphere(new Sphere(4, Vector3(0,0,10), Color(1,0,0), 0,0));
+    scene.addSphere(new Sphere(1.5, Vector3(-2,0,5), Color(0,1,0), 0,0));
     Rasterizer rasterizer(scene, 640, 480);
     rasterizer.renderImage().saveToFile("testRasterization.bmp", 72);
     return 0;
