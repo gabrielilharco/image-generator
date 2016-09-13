@@ -8,31 +8,25 @@
 #include <limits>
 #include "rasterizer/Rasterizer.h"
 
-Rasterizer::Rasterizer(const WorldScene &scene, const unsigned int imageWidth, const unsigned int imageHeight)
+Rasterizer::Rasterizer(const WorldScene &scene, const unsigned int imageWidth, const unsigned int imageHeight, const Camera camera)
     : scene(scene), imageWidth(imageWidth), imageHeight(imageHeight),
-      camera (Camera(Matrix44(std::vector<double>{1, 0, 0, 0,
-                                                  0, 1, 0, 0,
-                                                  0, 0, 1, 0,
-                                                  0, 0, 20, 1}),
-                                                  10.0, 4.0, 3.0)) {}
+      camera(camera) {}
 
 const Image Rasterizer::renderImage() {
-    // Mock triangle list with coords related to camera:
-    Vector3 a(-0.5, -0.5, -10.0);
-    Vector3 b(0.0, 0.5, -10.0);
-    Vector3 c(0.5, -0.5, -10.0);
-    Triangle t1(a, b, c);
-    Vector3 a2(-0.5, -0.5, 3.0);
-    Vector3 b2(0.0, 0.5, 3.0);
-    Vector3 c2(0.5, -0.5, 3.0);
-    Triangle t2(a2, b2,c2);
 
-    std::vector<Triangle> mockTriangleList;
-    mockTriangleList.push_back(t1);
-    mockTriangleList.push_back(t2);
+    std::vector<Triangle> triangleList;
 
-    SphereToTrianglesGenerator sphereToTriangles(2, Vector3(1, 0 ,0), 2);
-    const std::vector<Triangle> &triangleList = sphereToTriangles.getTriangleList();
+    for (int i = 0; i < scene.spheres().size(); i++) {
+        std::vector<Triangle> sphereTriangles = SphereToTrianglesGenerator::createTriangles(
+            scene.spheres()[i]->radius, scene.spheres()[i]->center, 3);
+        for (int j = 0; j < sphereTriangles.size(); j++) {
+            triangleList.push_back(sphereTriangles[j]);
+        }
+    }
+
+    for (int i = 0; i < scene.triangles().size(); i++) {
+        triangleList.push_back(*scene.triangles()[i]);
+    }
 
     std::vector<Triangle> trianglesWithCameraCoords =
         transformTrianglesToCameraCoords(triangleList, camera);

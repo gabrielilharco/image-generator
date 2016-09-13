@@ -14,7 +14,7 @@
 class Rasterizer {
  public:
     Rasterizer(const WorldScene &scene, const unsigned int imageWidth,
-               const unsigned int imageHeight);
+               const unsigned int imageHeight, const Camera camera);
     const Image renderImage();
 
  private:

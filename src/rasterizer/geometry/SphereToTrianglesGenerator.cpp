@@ -6,13 +6,7 @@
 #include "SphereToTrianglesGenerator.h"
 #include <cmath>
 
-SphereToTrianglesGenerator::SphereToTrianglesGenerator(const double radius, const Vector3 position, const int depth) {
-    generateUnitSphere(depth);
-    adjustRadius(radius);
-    translate(position);
-}
-
-void SphereToTrianglesGenerator::generateUnitSphere(const int depth) {
+void SphereToTrianglesGenerator::generateUnitSphere(const int depth, std::vector<Triangle>& triangleList) {
 
     /*
      * Reference: http://blog.andreaskahler.com/2009/06/creating-icosphere-mesh-in-code.html
@@ -118,7 +112,7 @@ void SphereToTrianglesGenerator::generateUnitSphere(const int depth) {
     }
 }
 
-void SphereToTrianglesGenerator::adjustRadius(const double radius) {
+void SphereToTrianglesGenerator::adjustRadius(const double radius, std::vector<Triangle>& triangleList) {
     for (int i = 0; i < triangleList.size(); i++) {
         triangleList[i].a.x *= radius;
         triangleList[i].a.y *= radius;
@@ -132,10 +126,7 @@ void SphereToTrianglesGenerator::adjustRadius(const double radius) {
     }
 }
 
-const std::vector<Triangle> &SphereToTrianglesGenerator::getTriangleList() const {
-    return triangleList;
-}
-void SphereToTrianglesGenerator::translate(const Vector3 position) {
+void SphereToTrianglesGenerator::translate(const Vector3 position, std::vector<Triangle>& triangleList) {
     std::vector<double> teste{1, 0, 0, 0,
                               0, 1, 0, 0,
                               0, 0, 1, 0,
@@ -147,5 +138,12 @@ void SphereToTrianglesGenerator::translate(const Vector3 position) {
         triangleList[i].c = triangleList[i].c * transform;
     }
 
+}
+const std::vector<Triangle> SphereToTrianglesGenerator::createTriangles(const double radius, const Vector3 position, const int refineSteps) {
+    std::vector<Triangle> triangleList;
+    generateUnitSphere(refineSteps, triangleList);
+    adjustRadius(radius, triangleList);
+    translate(position, triangleList);
+    return triangleList;
 }
 

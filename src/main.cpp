@@ -33,13 +33,13 @@ int rayTracer() {
 
 int rasterization() {
     WorldScene scene;
-//    Triangle triangle(Vector3(-0.5, -0.5, -3),
-//                      Vector3(0.0, 0.5, -3),
-//                      Vector3(0.5, -0.5, -3));
-//    scene.addTriangle(&triangle);
-    scene.addSphere(new Sphere(4, Vector3(0,0,10), Color(1,0,0), 0,0));
-    scene.addSphere(new Sphere(1.5, Vector3(-2,0,5), Color(0,1,0), 0,0));
-    Rasterizer rasterizer(scene, 640, 480);
+    scene.addSphere(new Sphere(4, Vector3(0,0,0), Color(1,0,0), 0, 1));
+    scene.addSphere(new Sphere(1.5, Vector3(6,0,0), Color(0,1,0), 0, 0));
+    Camera camera(Matrix44(std::vector<double> {1, 0, 0, 0,
+                                                0, 1, 0, 0,
+                                                0, 0, 1, 0,
+                                                0, 0,20,1}), 10, 20, 15);
+    Rasterizer rasterizer(scene, 640, 480, camera);
     rasterizer.renderImage().saveToFile("testRasterization.bmp", 72);
     return 0;
 }

@@ -9,14 +9,12 @@
 
 class SphereToTrianglesGenerator {
  public:
-    SphereToTrianglesGenerator(const double radius, const Vector3 position, const int depth);
-    const std::vector<Triangle> &getTriangleList() const;
+    static const std::vector<Triangle> createTriangles(const double radius, const Vector3 position, const int refineSteps);
 
  private:
-    void generateUnitSphere(const int depth);
-    std::vector<Triangle> triangleList;
-    void adjustRadius(const double radius);
-    void translate(const Vector3 vector3);
+    static void generateUnitSphere(const int depth, std::vector<Triangle>& triangleList);
+    static void adjustRadius(const double radius, std::vector<Triangle>& triangleList);
+    static void translate(const Vector3 vector3, std::vector<Triangle>& triangleList);
 };
 
 
