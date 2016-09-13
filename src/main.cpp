@@ -25,8 +25,8 @@ int rayTracer(WorldScene scene2, Camera camera2, unsigned int width2, unsigned i
     scene.addLight(new PointLight(Color(0.051,0.051,0.051), Vector3(0,8,-1)));
 
     //camera
-    unsigned int height = 480;
-    unsigned int width = 640;
+    unsigned int height = 4800;
+    unsigned int width = 6400;
     Camera camera(Matrix44(std::vector<double> { 1, 0, 0, 0,
                                                  0, 1, 0, 0,
                                                  0, 0, 1, 0,
