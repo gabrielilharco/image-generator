@@ -44,7 +44,7 @@ std::vector<Triangle> Rasterizer::transformTrianglesToCameraCoords(const std::ve
         aOnCameraCoords = triangles[i].a * camera.worldToCamTransform;
         bOnCameraCoords = triangles[i].b * camera.worldToCamTransform;
         cOnCameraCoords = triangles[i].c * camera.worldToCamTransform;
-        result.push_back(Triangle(aOnCameraCoords, bOnCameraCoords, cOnCameraCoords));
+        result.push_back(Triangle(aOnCameraCoords, bOnCameraCoords, cOnCameraCoords, triangles[i].color));
     }
     return result;
 }
@@ -83,14 +83,15 @@ Color Rasterizer::getColorAt(Triangle t) {
 
     std::vector<Light *> light = scene.lights();
 
-    HSL triangleHSL = t.color.toHSL();
+    Color rgb = Color(t.color.r*255, t.color.g*255, t.color.b*255);
+    HSL triangleHSL = rgb.toHSL();
     double maxLuminance = 0;
 
     for(int i = 0; i < light.size(); i++) {
         Vector3 dir = light[i]->directionAt(mid);
         dir = dir.normalize();
 
-        double luminance = dir.dot(mid);
+        double luminance = dir.dot(normal);
         if(luminance > maxLuminance) maxLuminance = luminance;
     }
     triangleHSL.setLuminance(triangleHSL.l*maxLuminance);
