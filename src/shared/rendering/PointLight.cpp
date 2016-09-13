@@ -13,3 +13,7 @@ PointLight::PointLight (Color c, Vector3 pos) {
     position = pos;
     color = c;
 };
+
+double PointLight::distanceAt(const Vector3& point) {
+    return Vector3::distance(point, position);
+}

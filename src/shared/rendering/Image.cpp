@@ -37,10 +37,11 @@ void Image::antiAlias() {
     // TODO: refactor
     int x_inc[] = { 1,-1, 0, 0, 1, 1,-1,-1, 2, 0,-2, 0, 2, 1, 2,-1,-2, 1,-2,-1, 2,-2, 2,-2};
     int y_inc[] = { 0, 0, 1,-1, 1,-1, 1,-1, 0, 2, 0,-2, 1, 2,-1, 2, 1,-2,-1,-2, 2,-2,-2, 2};
-    double weight_sum = 0;
+
     double weight;
     for (unsigned long  i = 2; i < height-2; i++) {
         for (unsigned long j = 2; j < width-2; j++) {
+            double weight_sum = 0;
             auxiliarImage.pixels[i][j] = Color(0,0,0);
             for (int k = 0; k < 24; k++) {
                 weight = 1; //1.0/sqrt(x_inc[k]*x_inc[k] + y_inc[k]*y_inc[k]);
@@ -108,9 +109,11 @@ void Image::saveToFile (const char * filename, int dpi) const{
     //Image is reflected on the y-axis
     for (int i = height - 1; i >= 0; i--) {
         for (int j = 0; j < width; j++) {
-            unsigned char color[3] = {(unsigned char) pixels[i][j].b,
-                                      (unsigned char) pixels[i][j].g,
-                                      (unsigned char) pixels[i][j].r};
+            unsigned char color[3] = {(unsigned char) max(0.0,min(255.0,(255*pixels[i][j].b))),
+                                      (unsigned char) max(0.0,min(255.0,(255*pixels[i][j].g))),
+                                      (unsigned char) max(0.0,min(255.0,(255*pixels[i][j].r)))};
+            //if (pixels[i][j].r > 0)
+            //cout << pixels[i][j].r << "." << pixels[i][j].g << "." << pixels[i][j].b << endl;
             fwrite(color,1,3,f);
         }
     }

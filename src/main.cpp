@@ -6,12 +6,35 @@
 #include "shared/geometry/Triangle.h"
 #include <math.h>
 #include <chrono>
+#include <shared/rendering/PointLight.h>
 
 
-int rayTracer(WorldScene scene, Camera camera, unsigned int width, unsigned int height) {
-    unsigned int dpi = 72;
+int rayTracer(WorldScene scene2, Camera camera2, unsigned int width2, unsigned int height2) {
+
+    WorldScene scene;
+    scene.addSphere(new Sphere(1, Vector3(0,0,0), Color(1,1,1), 0, 0));
+    scene.addSphere(new Sphere(3, Vector3(-2,3,-5), Color(1,1,1), 1, 0));
+
+    scene.addSphere((new Sphere(1e5, Vector3(1e5+10,0,0), Color(.25,.25,.75),0,0)));
+    scene.addSphere((new Sphere(1e5, Vector3(-1e5-10,0, 0), Color(.75,.25,.25),0,0)));
+    scene.addSphere((new Sphere(1e5, Vector3(0,0, -1e5-20), Color(.25,.25,.25),0,0)));
+    scene.addSphere((new Sphere(1e5, Vector3(0,1e5+10,0), Color(.75,.75,.75),0,0)));
+    scene.addSphere((new Sphere(1e5, Vector3(0,-1e5-10,0), Color(.75,.75,.75),0,0)));
+
+    scene.addLight(new PointLight(Color(0.051,0.051,0.051), Vector3(0.0,8,-1)));
+
+    //camera
+    unsigned int height = 480;
+    unsigned int width = 640;
+    Camera camera(Matrix44(std::vector<double> { 1, 0, 0, 0,
+                                                 0, 1, 0, 0,
+                                                 0, 0, 1, 0,
+                                                 0, 0, 100,0}), 70, 20, 15);
+
+    int dpi = 72;
+
     Image * image = new Image(width, height, dpi);
-    RayTracer rayTracer(1, 3);
+    RayTracer rayTracer(1, 2);
     rayTracer.render(scene, camera, image);
     return 0;
 };

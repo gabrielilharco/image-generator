@@ -13,7 +13,7 @@
 
 class RayTracer {
 public:
-    RayTracer(int sspp = 1, int md = 1) { samplesSqrtPerPixel = sspp; max_depth=md;}
+    RayTracer(int sspp = 1, int max_depth = 1) { samplesSqrtPerPixel = sspp; this->max_depth=max_depth;}
 
     void render(const WorldScene& ws, const Camera& camera, Image* image);
 

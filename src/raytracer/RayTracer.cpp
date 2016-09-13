@@ -31,21 +31,21 @@ Color RayTracer::traceRay(const Ray& ray, const WorldScene& ws, int depth) {
             }
             Vector3 reflDir = ray.direction - norm * 2 * norm.dot(ray.direction);
             reflDir.normalize();
-            Ray ray(intercPoint+norm*bias, ray.direction);
-            Color reflection = traceRay(ray, ws, depth+1);
+            Ray reflRay(intercPoint+norm*bias, reflDir);
+            Color reflection = traceRay(reflRay, ws, depth+1);
+           // cout << reflection.r << " " << reflection.g << " " << reflection.b << endl;
             Color refraction = Color(0,0,0);
             if (intercObj->transparency > 0) {
-                float ior = 1.1, eta = (inside) ? ior : 1 / ior; // are we inside or outside the surface?
-                float cosi = -ray.direction.dot(norm);
-                float k = 1 - eta * eta * (1 - cosi * cosi);
+                double ior = 1.1, eta = (inside) ? ior : 1 / ior;
+                double cosi = -norm.dot(ray.direction);
+                double k = 1 - eta * eta * (1 - cosi * cosi);
                 Vector3 refrDir = ray.direction * eta + norm * (eta *  cosi - sqrt(k));
                 refrDir.normalize();
                 Ray newRay(intercPoint - norm*bias, refrDir);
                 refraction = traceRay(newRay, ws, depth + 1);
             }
-            // the result is a mix of reflection and refraction (if the sphere is transparent)
+            fresnelEffect = 1;
             color = (reflection * fresnelEffect + refraction * (1 - fresnelEffect) * intercObj->transparency) * intercObj->color;
-            cout << color.r << " " << color.g << " " << color.b << endl;
         }
         else {
             for (int i = 0; i < ws.lights().size(); i++) {
@@ -59,7 +59,8 @@ Color RayTracer::traceRay(const Ray& ray, const WorldScene& ws, int depth) {
                     if (ws.objects()[j] == intercObj) continue;
 
                     double dist = ws.objects()[j]->getFirstIntersection(lightRay);
-                    if (dist != INF) {
+                    //@fixme
+                    if (dist != INF && dist < light->distanceAt(intercPoint)) {
                         transmission = 0;
                         break;
                     }
@@ -80,6 +81,12 @@ void RayTracer::render(const WorldScene &ws, const Camera& camera, Image* image)
     Vector3 cameraHorizontal = (camera.calculateTopRight()-camera.calculateTopLeft()).normalize();
     Vector3 cameraVertical = (camera.calculateBottomLeft()-camera.calculateTopLeft()).normalize();
 
+    auto i = camera.calculateTopLeft();
+    auto t = camera.calculateTopRight();
+    auto k = camera.calculateBottomLeft();
+    auto x = camera.calculateBottomRight();
+
+
     for (int h = 0; h < image->height; h++) {
         for (int w = 0; w < image->width; w++) {
             double xIncrement = pixelSizeX/(samplesSqrtPerPixel+1);
@@ -92,11 +99,12 @@ void RayTracer::render(const WorldScene &ws, const Camera& camera, Image* image)
                 }
             }
             image->pixels[h][w] = image->pixels[h][w]/(samplesSqrtPerPixel*samplesSqrtPerPixel);
+
         }
     }
 
-    image->antiAlias();
-    image->normalize();
+    //image->antiAlias();
+    //image->normalize();
     image->saveToFile("test.bmp", image->dpi);
 }
 

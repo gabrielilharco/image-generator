@@ -13,3 +13,7 @@ DirectionalLight::DirectionalLight(Color c, Vector3 dir) {
     direction = dir.normalize();
     color = c;
 }
+
+double DirectionalLight::distanceAt(const Vector3& point) {
+    return 1e80;
+}
