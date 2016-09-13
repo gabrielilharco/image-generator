@@ -13,8 +13,8 @@ Rasterizer::Rasterizer(const WorldScene &scene, const unsigned int imageWidth, c
       camera (Camera(Matrix44(std::vector<double>{1, 0, 0, 0,
                                                   0, 1, 0, 0,
                                                   0, 0, 1, 0,
-                                                  0, 0, 0, 1}),
-                                                  1.0, 4.0, 3.0)) {}
+                                                  0, 0, 20, 1}),
+                                                  10.0, 4.0, 3.0)) {}
 
 const Image Rasterizer::renderImage() {
     // Mock triangle list with coords related to camera:
@@ -31,11 +31,11 @@ const Image Rasterizer::renderImage() {
     mockTriangleList.push_back(t1);
     mockTriangleList.push_back(t2);
 
-    SphereToTrianglesGenerator sphereToTriangles(1);
+    SphereToTrianglesGenerator sphereToTriangles(2, Vector3(1, 0 ,0), 2);
     const std::vector<Triangle> &triangleList = sphereToTriangles.getTriangleList();
 
     std::vector<Triangle> trianglesWithCameraCoords =
-        transformTrianglesToCameraCoords(mockTriangleList, camera);
+        transformTrianglesToCameraCoords(triangleList, camera);
     std::vector<TriangleProjection> trianglesOnScreen =
         transformTrianglesToViewportCoords(trianglesWithCameraCoords, camera);
     Image renderedImage = fillPixelsOnFinalImage(trianglesOnScreen);
@@ -104,8 +104,8 @@ Image Rasterizer::fillPixelsOnFinalImage(const std::vector<TriangleProjection> &
         BoundingBox boundingBox(rasterTriangle);
 
 
-        for(int x = std::max(0, (int)round(boundingBox.bl.x)); x <= std::min((int)imageWidth, (int)round(boundingBox.tr.x)); x++) {
-            for(int y = std::max(0, (int)round(boundingBox.bl.y)); y <= std::min((int)imageHeight, (int)round(boundingBox.tr.y)); y++) {
+        for(int x = std::max(0, (int)round(boundingBox.bl.x)); x <= std::min((int)imageWidth-1, (int)round(boundingBox.tr.x)); x++) {
+            for(int y = std::max(0, (int)round(boundingBox.bl.y)); y <= std::min((int)imageHeight-1, (int)round(boundingBox.tr.y)); y++) {
                 Vector2 pixel(x, y);
 
                 if(!rasterTriangle.isInside(pixel)) continue;

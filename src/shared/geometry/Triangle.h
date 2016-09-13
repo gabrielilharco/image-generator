@@ -9,9 +9,9 @@ public:
     double getFirstIntersection (const Ray& ray) override;
     Vector3 getNormalAt(const Vector3 v) override;
 
-    const Vector3 a;
-    const Vector3 b;
-    const Vector3 c;
+    Vector3 a;
+    Vector3 b;
+    Vector3 c;
 };
 
 #endif //RAYTRACER_TRIANGLE_H

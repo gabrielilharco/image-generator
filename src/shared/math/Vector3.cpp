@@ -21,6 +21,10 @@ double Vector3::distance2 (const Vector3& v1, const Vector3& v2) {
     return (v1.x-v2.x)*(v1.x-v2.x) + (v1.y-v2.y)*(v1.y-v2.y) + (v1.z-v2.z)*(v1.z-v2.z);
 }
 
+Vector3 Vector3::middlePoint(const Vector3 v1, const Vector3 v2) {
+    return Vector3((v1.x + v2.x) / 2, (v1.y + v2.y) / 2, (v1.z + v2.z) / 2);
+}
+
 Vector3 Vector3::operator + (const Vector3& b) const {
     return Vector3(x+b.x, y+b.y, z+b.z);
 }
