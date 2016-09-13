@@ -77,6 +77,26 @@ std::vector<TriangleProjection> Rasterizer::transformTrianglesToViewportCoords(c
     return result;
 }
 
+Color Rasterizer::getColorAt(Triangle t) {
+    Vector3 mid = t.a/3 + t.b/3 + t.c/3;
+    Vector3 normal = t.getNormalAt(mid);
+
+    std::vector<Light *> light = scene.lights();
+
+    HSL triangleHSL = t.color.toHSL();
+    double maxLuminance = 0;
+
+    for(int i = 0; i < light.size(); i++) {
+        Vector3 dir = light[i]->directionAt(mid);
+        dir = dir.normalize();
+
+        double luminance = dir.dot(mid);
+        if(luminance > maxLuminance) maxLuminance = luminance;
+    }
+    triangleHSL.setLuminance(triangleHSL.l*maxLuminance);
+    return triangleHSL.toRGB();
+}
+
 Image Rasterizer::fillPixelsOnFinalImage(const std::vector<TriangleProjection> &triangles) {
     Image stub(imageWidth, imageHeight, 72);
 
@@ -106,7 +126,7 @@ Image Rasterizer::fillPixelsOnFinalImage(const std::vector<TriangleProjection> &
 
                 double z = -rasterTriangle.interpolateDepth(pixel);
                 if(z > 0 && z < zBuffer[x][y]) {
-                    stub.pixels[y][x].r =  min(255, (int)(255*z/0.05));
+                    stub.pixels[y][x] = getColorAt(rasterTriangle.correspondentTriangle);
                     zBuffer[x][y] = z;
                 }
             }

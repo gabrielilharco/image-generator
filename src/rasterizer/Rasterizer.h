@@ -24,6 +24,8 @@ class Rasterizer {
     std::vector<std::vector<double>> zBuffer;
     Image* renderedImage;
 
+    Color getColorAt(Triangle);
+
     std::vector<Triangle> transformTrianglesToCameraCoords(
         const std::vector<Triangle> &triangles, const Camera &camera);
     std::vector<TriangleProjection> transformTrianglesToViewportCoords(

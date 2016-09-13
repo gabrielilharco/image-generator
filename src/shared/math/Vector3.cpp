@@ -37,6 +37,10 @@ Vector3 Vector3::operator * (double b) const {
     return Vector3(x*b, y*b, z*b);
 }
 
+Vector3 Vector3::operator / (double b) const {
+    return Vector3(x/b, y/b, z/b);
+}
+
 Vector3 Vector3::operator*(const Vector3 & v) const {
     return Vector3(x * v.x, y * v.y, z * v.z);
 }

@@ -18,6 +18,7 @@ public:
     Vector3 operator + (const Vector3&) const;
     Vector3 operator - (const Vector3&) const;
     Vector3 operator * (double) const;
+    Vector3 operator / (double) const;
     Vector3 operator * (const Vector3&) const;
     Vector3 operator * (const Matrix44&) const;
     Vector3 normalize ();
