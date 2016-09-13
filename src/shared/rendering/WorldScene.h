@@ -10,6 +10,7 @@
 #include "shared/geometry/Triangle.h"
 #include "shared/geometry/Object.h"
 #include "shared/rendering/Light.h"
+#include "Camera.h"
 
 class WorldScene {
 public:
@@ -20,7 +21,7 @@ public:
     const std::vector<Sphere*> &spheres() const;
     const std::vector<Triangle*> &triangles() const;
     const std::vector<Light*> &lights() const;
-    double getFirstIntersection(const Ray &ray, Object* &obj) const;
+    double getFirstIntersection(const Ray &ray, Object* &obj, const Camera &cam) const;
 
 private:
     std::vector<Object*> listOfObjects;

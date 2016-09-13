@@ -20,7 +20,7 @@ public:
 private:
     int max_depth;
     int samplesSqrtPerPixel;
-    Color traceRay(const Ray& originalRay, const WorldScene& ws, int depth);
+    Color traceRay(const Ray& originalRay, const WorldScene& ws, const Camera& camera, int depth);
 };
 
 
