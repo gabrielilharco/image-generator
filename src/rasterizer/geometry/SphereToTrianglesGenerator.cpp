@@ -6,7 +6,15 @@
 #include "SphereToTrianglesGenerator.h"
 #include <cmath>
 
-void SphereToTrianglesGenerator::generateUnitSphere(const int depth, std::vector<Triangle>& triangleList) {
+const std::vector<Triangle> SphereToTrianglesGenerator::createTriangles(const double radius, const Vector3 position, const Color color, const int refineSteps) {
+    std::vector<Triangle> triangleList;
+    generateUnitSphere(refineSteps, color, triangleList);
+    adjustRadius(radius, triangleList);
+    translate(position, triangleList);
+    return triangleList;
+}
+
+void SphereToTrianglesGenerator::generateUnitSphere(const int depth, const Color color, std::vector<Triangle>& triangleList) {
 
     /*
      * Reference: http://blog.andreaskahler.com/2009/06/creating-icosphere-mesh-in-code.html
@@ -32,67 +40,67 @@ void SphereToTrianglesGenerator::generateUnitSphere(const int depth, std::vector
 
     triangleList.push_back(Triangle(icosphereVertices[0],
                                     icosphereVertices[11],
-                                    icosphereVertices[5]));
+                                    icosphereVertices[5], color));
     triangleList.push_back(Triangle(icosphereVertices[0],
                                     icosphereVertices[5],
-                                    icosphereVertices[1]));
+                                    icosphereVertices[1], color));
     triangleList.push_back(Triangle(icosphereVertices[0],
                                     icosphereVertices[1],
-                                    icosphereVertices[7]));
+                                    icosphereVertices[7], color));
     triangleList.push_back(Triangle(icosphereVertices[0],
                                     icosphereVertices[7],
-                                    icosphereVertices[10]));
+                                    icosphereVertices[10], color));
     triangleList.push_back(Triangle(icosphereVertices[0],
                                     icosphereVertices[10],
-                                    icosphereVertices[11]));
+                                    icosphereVertices[11], color));
 
     triangleList.push_back(Triangle(icosphereVertices[1],
                                     icosphereVertices[5],
-                                    icosphereVertices[9]));
+                                    icosphereVertices[9], color));
     triangleList.push_back(Triangle(icosphereVertices[5],
                                     icosphereVertices[11],
-                                    icosphereVertices[4]));
+                                    icosphereVertices[4], color));
     triangleList.push_back(Triangle(icosphereVertices[11],
                                     icosphereVertices[10],
-                                    icosphereVertices[2]));
+                                    icosphereVertices[2], color));
     triangleList.push_back(Triangle(icosphereVertices[10],
                                     icosphereVertices[7],
-                                    icosphereVertices[6]));
+                                    icosphereVertices[6], color));
     triangleList.push_back(Triangle(icosphereVertices[7],
                                     icosphereVertices[1],
-                                    icosphereVertices[8]));
+                                    icosphereVertices[8], color));
 
     triangleList.push_back(Triangle(icosphereVertices[3],
                                     icosphereVertices[9],
-                                    icosphereVertices[4]));
+                                    icosphereVertices[4], color));
     triangleList.push_back(Triangle(icosphereVertices[3],
                                     icosphereVertices[4],
-                                    icosphereVertices[2]));
+                                    icosphereVertices[2], color));
     triangleList.push_back(Triangle(icosphereVertices[3],
                                     icosphereVertices[2],
-                                    icosphereVertices[6]));
+                                    icosphereVertices[6], color));
     triangleList.push_back(Triangle(icosphereVertices[3],
                                     icosphereVertices[6],
-                                    icosphereVertices[8]));
+                                    icosphereVertices[8], color));
     triangleList.push_back(Triangle(icosphereVertices[3],
                                     icosphereVertices[8],
-                                    icosphereVertices[9]));
+                                    icosphereVertices[9], color));
 
     triangleList.push_back(Triangle(icosphereVertices[4],
                                     icosphereVertices[9],
-                                    icosphereVertices[5]));
+                                    icosphereVertices[5], color));
     triangleList.push_back(Triangle(icosphereVertices[2],
                                     icosphereVertices[4],
-                                    icosphereVertices[11]));
+                                    icosphereVertices[11], color));
     triangleList.push_back(Triangle(icosphereVertices[6],
                                     icosphereVertices[2],
-                                    icosphereVertices[10]));
+                                    icosphereVertices[10], color));
     triangleList.push_back(Triangle(icosphereVertices[8],
                                     icosphereVertices[6],
-                                    icosphereVertices[7]));
+                                    icosphereVertices[7], color));
     triangleList.push_back(Triangle(icosphereVertices[9],
                                     icosphereVertices[8],
-                                    icosphereVertices[1]));
+                                    icosphereVertices[1], color));
 
     for (int i = 0; i < depth; i++) {
         std::vector<Triangle> newTriangleList;
@@ -103,10 +111,13 @@ void SphereToTrianglesGenerator::generateUnitSphere(const int depth, std::vector
                                               triangleList[j].c).normalize();
             Vector3 bc = Vector3::middlePoint(triangleList[j].b,
                                               triangleList[j].c).normalize();
-            newTriangleList.push_back(Triangle(triangleList[j].a, ab, ac));
-            newTriangleList.push_back(Triangle(triangleList[j].b, bc, ab));
-            newTriangleList.push_back(Triangle(triangleList[j].c, ac, bc));
-            newTriangleList.push_back(Triangle(ab, bc, ac));
+            newTriangleList.push_back(Triangle(triangleList[j].a, ab, ac,
+                                               triangleList[j].color));
+            newTriangleList.push_back(Triangle(triangleList[j].b, bc, ab,
+                                               triangleList[j].color));
+            newTriangleList.push_back(Triangle(triangleList[j].c, ac, bc,
+                                               triangleList[j].color));
+            newTriangleList.push_back(Triangle(ab, bc, ac, triangleList[j].color));
         }
         triangleList = newTriangleList;
     }
@@ -138,12 +149,5 @@ void SphereToTrianglesGenerator::translate(const Vector3 position, std::vector<T
         triangleList[i].c = triangleList[i].c * transform;
     }
 
-}
-const std::vector<Triangle> SphereToTrianglesGenerator::createTriangles(const double radius, const Vector3 position, const int refineSteps) {
-    std::vector<Triangle> triangleList;
-    generateUnitSphere(refineSteps, triangleList);
-    adjustRadius(radius, triangleList);
-    translate(position, triangleList);
-    return triangleList;
 }
 

@@ -18,7 +18,7 @@ const Image Rasterizer::renderImage() {
 
     for (int i = 0; i < scene.spheres().size(); i++) {
         std::vector<Triangle> sphereTriangles = SphereToTrianglesGenerator::createTriangles(
-            scene.spheres()[i]->radius, scene.spheres()[i]->center, 3);
+            scene.spheres()[i]->radius, scene.spheres()[i]->center, scene.spheres()[i]->color, 3);
         for (int j = 0; j < sphereTriangles.size(); j++) {
             triangleList.push_back(sphereTriangles[j]);
         }

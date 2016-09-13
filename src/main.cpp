@@ -8,39 +8,18 @@
 #include <chrono>
 
 
-int rayTracer() {
-    WorldScene scene;
-    scene.addSphere(new Sphere(4, Vector3(0,0,10), Color(1,0,0), 0, 1));
-    scene.addSphere(new Sphere(1.5, Vector3(-2,0,5), Color(0,1,0), 0, 0));
-    //scene.addLight(new DirectionalLight(Color(1,1,1), Vector3(1,0,0)));
-    scene.addLight(new DirectionalLight(Color(1,1,1), Vector3(1,1,1)));
-    //camera
-    unsigned int height = 480*2;
-    unsigned int width = 640*2;
-    Camera camera(Matrix44(std::vector<double> {-1, 0, 0, 0,
-                                                 0, 1, 0, 0,
-                                                 0, 0,-1, 0,
-                                                 0, 0,-6,0}), 10, 20, 15);
-
-    int dpi = 72;
-
+int rayTracer(WorldScene scene, Camera camera, unsigned int width, unsigned int height) {
+    unsigned int dpi = 72;
     Image * image = new Image(width, height, dpi);
     RayTracer rayTracer(1, 3);
     rayTracer.render(scene, camera, image);
-
     return 0;
 };
 
-int rasterization() {
-    WorldScene scene;
-    scene.addSphere(new Sphere(4, Vector3(0,0,0), Color(1,0,0), 0, 1));
-    scene.addSphere(new Sphere(1.5, Vector3(6,0,0), Color(0,1,0), 0, 0));
-    Camera camera(Matrix44(std::vector<double> {1, 0, 0, 0,
-                                                0, 1, 0, 0,
-                                                0, 0, 1, 0,
-                                                0, 0,20,1}), 10, 20, 15);
-    Rasterizer rasterizer(scene, 640, 480, camera);
-    rasterizer.renderImage().saveToFile("testRasterization.bmp", 72);
+int rasterization(WorldScene scene, Camera camera, unsigned int width, unsigned int height) {
+    unsigned int dpi = 72;
+    Rasterizer rasterizer(scene, width, height, camera);
+    rasterizer.renderImage().saveToFile("testRasterization.bmp", dpi);
     return 0;
 }
 
@@ -53,13 +32,25 @@ int main (int argc, char *argv[]) {
     std::string rayTracerParameter = "-raytracer";
     std::string rasterizationParameter = "-rasterization";
 
+    unsigned int width = 640;
+    unsigned int height = 480;
+
+    WorldScene scene;
+    scene.addSphere(new Sphere(4, Vector3(0,0,0), Color(1,0,0), 0, 1));
+    scene.addSphere(new Sphere(1.5, Vector3(6,0,0), Color(1,0,0), 0, 1));
+    scene.addLight(new DirectionalLight(Color(1,1,1), Vector3(1,1,1)));
+    Camera camera(Matrix44(std::vector<double> {1, 0, 0, 0,
+                                                0, 1, 0, 0,
+                                                0, 0, 1, 0,
+                                                0, 0,20,1}), 10, 20, 15);
+
     std::chrono::high_resolution_clock::time_point t1 =
         std::chrono::high_resolution_clock::now();
     if (rayTracerParameter.compare(argv[1]) == 0) {
-        rayTracer();
+        rayTracer(scene, camera, width, height);
     }
     else if (rasterizationParameter.compare(argv[1]) == 0) {
-        rasterization();
+        rasterization(scene, camera, width, height);
     }
     else {
         std::cout << "Bad arguments" << std::endl;
