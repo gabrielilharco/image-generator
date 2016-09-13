@@ -105,7 +105,8 @@ void Image::saveToFile (const char * filename, int dpi) const{
     fwrite(bmpFileHeader,1,14,f);
     fwrite(bmpInfoHeader,1,40,f);
 
-    for (int i = 0; i < height; i++) {
+    //Image is reflected on the y-axis
+    for (int i = height - 1; i >= 0; i--) {
         for (int j = 0; j < width; j++) {
             unsigned char color[3] = {(unsigned char) pixels[i][j].b,
                                       (unsigned char) pixels[i][j].g,
