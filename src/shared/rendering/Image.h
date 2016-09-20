@@ -23,7 +23,7 @@ public:
 
 	void normalize ();
 	void antiAlias();
-	void saveToFile(const char * filename, int dpi) const;
+	void saveToFile(string filename, int dpi) const;
 };
 
 #endif //IMAGE_GENERATOR_IMAGE_H

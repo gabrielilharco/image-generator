@@ -59,7 +59,7 @@ void Image::antiAlias() {
     }
 }
 
-void Image::saveToFile (const char * filename, int dpi) const{
+void Image::saveToFile (string filename, int dpi) const{
     FILE *f;
     unsigned long  height = pixels.size();
     unsigned long  width = pixels[0].size();
@@ -101,7 +101,7 @@ void Image::saveToFile (const char * filename, int dpi) const{
     bmpInfoHeader[31] = (unsigned char)(ppm>>16);
     bmpInfoHeader[32] = (unsigned char)(ppm>>24);
 
-    f = fopen(filename,"wb");
+    f = fopen(filename.c_str(),"wb");
 
     fwrite(bmpFileHeader,1,14,f);
     fwrite(bmpInfoHeader,1,40,f);

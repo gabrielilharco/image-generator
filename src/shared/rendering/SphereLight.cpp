@@ -4,7 +4,7 @@ Vector3 SphereLight::directionAt (const Vector3& point) {
     return point-sphere.center;
 }
 
-Color SphereLight::colorAt (const Vector3& point, const WorldScene& ws, const Camera& camera) {
+Color SphereLight::colorAt (const Vector3& point, const WorldScene& ws, const Camera& camera, bool isReflecting) {
     // generate rays from various points of the sphere and check
     int nPoints = 20;
     Object *intercObj = NULL;
@@ -12,7 +12,7 @@ Color SphereLight::colorAt (const Vector3& point, const WorldScene& ws, const Ca
     for (int i = 0; i < nPoints; i++) {
         Vector3 randDir = Vector3::generateRandom();
         Vector3 randPoint = sphere.center + randDir*sphere.radius;
-        double distToInter = ws.getFirstIntersection(Ray(randPoint, point-randPoint), intercObj, camera);
+        double distToInter = ws.getFirstIntersection(Ray(randPoint, point-randPoint), intercObj, camera, isReflecting);
         if (distToInter >= Vector3::distance(point, randPoint)-0.000001) {
             countHits++;
         }

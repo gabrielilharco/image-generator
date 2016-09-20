@@ -34,7 +34,7 @@ const std::vector<Light*> &WorldScene::lights() const {
     return listOfLights;
 }
 
-double WorldScene::getFirstIntersection(const Ray &ray, Object* &obj, const Camera &cam) const {
+double WorldScene::getFirstIntersection(const Ray &ray, Object* &obj, const Camera &cam, bool isReflecting) const {
     double distanceToFirst = INF;
     double currentDistance;
     Vector3 cameraHorizontal = (cam.calculateTopRight()-cam.calculateTopLeft()).normalize();
@@ -43,7 +43,7 @@ double WorldScene::getFirstIntersection(const Ray &ray, Object* &obj, const Came
     for (int i = 0; i < listOfObjects.size(); i++) {
         currentDistance = listOfObjects[i]->getFirstIntersection(ray);
         Vector3 intercPoint = ray.origin + ray.direction * currentDistance;
-        if (currentDistance < distanceToFirst && normCam.dot(cam.calculateTopLeft()-intercPoint) < 0) {
+        if (currentDistance < distanceToFirst && (isReflecting || normCam.dot(cam.calculateTopLeft()-intercPoint) < 0)){
             distanceToFirst = currentDistance;
             obj = listOfObjects[i];
         }

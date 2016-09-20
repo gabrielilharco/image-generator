@@ -21,7 +21,7 @@ public:
     const std::vector<Sphere*> &spheres() const;
     const std::vector<Triangle*> &triangles() const;
     const std::vector<Light*> &lights() const;
-    double getFirstIntersection(const Ray &ray, Object* &obj, const Camera &cam) const;
+    double getFirstIntersection(const Ray &ray, Object* &obj, const Camera &cam, bool isReflecting) const;
 
 private:
     std::vector<Object*> listOfObjects;

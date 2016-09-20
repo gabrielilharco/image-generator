@@ -1,5 +1,6 @@
 #include "shared/rendering/Image.h"
 #include "shared/rendering/WorldScene.h"
+#include <math.h>
 #include "shared/rendering/DirectionalLight.h"
 #include "rasterizer/Rasterizer.h"
 #include "raytracer/RayTracer.h"
@@ -17,31 +18,43 @@ int rayTracer(WorldScene scene2, Camera camera2, unsigned int width2, unsigned i
 
     scene.addSphere((new Sphere(1e5, Vector3(1e5+10,0,0), Color(.25,.25,.75),0,0)));
     scene.addSphere((new Sphere(1e5, Vector3(-1e5-10,0, 0), Color(.75,.25,.25),0,0)));
-    scene.addSphere((new Sphere(1e5, Vector3(0,0, -1e5-20), Color(.25,.25,.25),0,0)));
-    scene.addSphere((new Sphere(1e5, Vector3(0,1e5+10,0), Color(.75,.75,.75),0,0)));
+    scene.addSphere((new Sphere(1e5, Vector3(0,0, -1e5-20), Color(.45,.45,.45),0,0)));
+    scene.addSphere((new Sphere(1e5, Vector3(0,1e5+10,0), Color(.85,.85,.85),0,0)));
     scene.addSphere((new Sphere(1e5, Vector3(0,-1e5-10,0), Color(.75,.75,.75),0,0)));
-    scene.addSphere((new Sphere(1e5, Vector3(0,0,1e5+22), Color(0,0,0),0,0)));
+    scene.addSphere((new Sphere(1e5, Vector3(0,0,1e5+22), Color(0.1,0.1,0.1),0,0)));
 
     //scene.addSphere((new Sphere(100, Vector3(0,99,10), Color(1,1,1),0,0)));
     //scene.addSphere((new Sphere(10, Vector3(0,0, -10-20), Color(.25,.25,.25),0,0)));
     //scene.addLight(new PointLight(Color(0.05,0.05,0.05), Vector3(0,9,4)));
-    scene.addLight(new SphereLight(Color(0.7,0.7,0.7), Vector3(0,9,2), 0.1));
+    scene.addLight(new SphereLight(Color(0.7,0.7,0.7), Vector3(0,6,-5), 0.1));
 
     //camera
 
-    unsigned int height = 480*1.0;
-    unsigned int width = 480*1.0;
+    unsigned int height = 480*2;
+    unsigned int width = 480*2;
 
-    Camera camera(Matrix44(std::vector<double> { 1, 0, 0, 0,
-                                                 0, 1, 0, 0,
-                                                 0, 0, 1, 0,
-                                                 0, 0, 65,0}), 45, 15, 15);
+//    Camera camera(Matrix44(std::vector<double> { 1, 0, 0, 0,
+//                                                 0, 1, 0, 0,
+//                                                 0, 0, 1, 0,
+//                                                 0, 0, 65, 0}), 45, 15, 15);
+
+//    Camera camera(Matrix44(std::vector<double> { 1, 0, 0, 0,
+//                                                 0, 0, -1, 0,
+//                                                 0, 1, 0, 0,
+//                                                 0, 54.5, 0, 0}), 45, 15, 15);
 
     int dpi = 72;
-
-    Image * image = new Image(width, height, dpi);
-    RayTracer rayTracer(1, 2);
-    rayTracer.render(scene, camera, image);
+    int divisions = 32;
+    for (int i = 0; i <= divisions; i++) {
+        double theta = 0.5*i*M_PI/divisions;
+        Camera camera(Matrix44(std::vector<double> { 1, 0, 0, 0,
+                                                     0, cos(theta), -sin(theta), 0,
+                                                     0, sin(theta), cos(theta), 0,
+                                                     0, 50*sin(theta), 65*cos(theta), 0}), 45, 15, 15);
+        Image * image = new Image(width, height, dpi);
+        RayTracer rayTracer(1, 2);
+        rayTracer.render(scene, camera, image, to_string(i)+".bmp");
+    }
     return 0;
 };
 

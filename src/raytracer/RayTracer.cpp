@@ -9,10 +9,10 @@ double mix (double a, double b, double m) {
     return m * b + (1 - m)*a;
 }
 
-Color RayTracer::traceRay(const Ray& ray, const WorldScene& ws, const Camera& camera, int depth) {
+Color RayTracer::traceRay(const Ray& ray, const WorldScene& ws, const Camera& camera, int depth, bool isReflecting) {
 
     Object *intercObj = NULL;
-    double distToInter = ws.getFirstIntersection(ray, intercObj, camera);
+    double distToInter = ws.getFirstIntersection(ray, intercObj, camera, isReflecting);
     Color color(0,0,0);
 
     if (distToInter < INF) {
@@ -29,7 +29,7 @@ Color RayTracer::traceRay(const Ray& ray, const WorldScene& ws, const Camera& ca
             Vector3 reflDir = ray.direction - norm * 2 * norm.dot(ray.direction);
             reflDir.normalize();
             Ray reflRay(intercPoint+norm*bias, reflDir);
-            Color reflection = traceRay(reflRay, ws, camera, depth+1);
+            Color reflection = traceRay(reflRay, ws, camera, depth+1, true);
 
             Color refraction = Color(0,0,0);
             if (intercObj->transparency > 0) {
@@ -39,7 +39,7 @@ Color RayTracer::traceRay(const Ray& ray, const WorldScene& ws, const Camera& ca
                 Vector3 refrDir = ray.direction * eta + norm * (eta *  cosi - sqrt(k));
                 refrDir.normalize();
                 Ray refRay(intercPoint - norm*bias, refrDir);
-                refraction = traceRay(refRay, ws, camera, depth + 1);
+                refraction = traceRay(refRay, ws, camera, depth + 1, true);
                 //cout << refraction.r << " " << refraction.g << " " << refraction.b << endl;
             }
             fresnelEffect = 0.8;
@@ -52,14 +52,14 @@ Color RayTracer::traceRay(const Ray& ray, const WorldScene& ws, const Camera& ca
                 Vector3 lightDir = light->directionAt(intercPoint);
                 double cos = norm.dot(lightDir.normalize());
                 if (cos < 0)
-                    color = color + light->colorAt(intercPoint, ws, camera) * intercObj->color * fabs(cos);
+                    color = color + light->colorAt(intercPoint, ws, camera, isReflecting) * intercObj->color * fabs(cos);
             }
         }
     }
     return color;
 }
 
-void RayTracer::render(const WorldScene &ws, const Camera& camera, Image* image) {
+void RayTracer::render(const WorldScene &ws, const Camera& camera, Image* image, string filename) {
 
     double pixelSizeX = (camera.calculateTopLeft()-camera.calculateTopRight()).abs()/image->width;
     double pixelSizeY = (camera.calculateTopLeft()-camera.calculateBottomLeft()).abs()/image->height;
@@ -74,7 +74,7 @@ void RayTracer::render(const WorldScene &ws, const Camera& camera, Image* image)
                 for (int j = 1; j <= samplesSqrtPerPixel; j++) {
                     Vector3 currentPosition = camera.calculateTopLeft() + cameraHorizontal*((w+i*xIncrement)*pixelSizeX) + cameraVertical*((h+j*yIncrement)*pixelSizeY);
                     Ray ray(camera.calculateOrigin(), currentPosition - camera.calculateOrigin());
-                    image->pixels[h][w] = image->pixels[h][w] + traceRay(ray, ws, camera, 0);
+                    image->pixels[h][w] = image->pixels[h][w] + traceRay(ray, ws, camera, 0, false);
                 }
             }
             image->pixels[h][w] = image->pixels[h][w]/(samplesSqrtPerPixel*samplesSqrtPerPixel);
@@ -82,8 +82,8 @@ void RayTracer::render(const WorldScene &ws, const Camera& camera, Image* image)
         }
     }
 
-    image->antiAlias();
+    //image->antiAlias();
     //image->normalize();
-    image->saveToFile("test.bmp", image->dpi);
+    image->saveToFile(filename, image->dpi);
 }
 
