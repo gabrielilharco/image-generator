@@ -95,7 +95,12 @@ Color Rasterizer::getColorAt(Triangle t) {
         if(luminance > maxLuminance) maxLuminance = luminance;
     }
     triangleHSL.setLuminance(triangleHSL.l*maxLuminance);
-    return triangleHSL.toRGB();
+
+    Color colorTrick = triangleHSL.toRGB();
+    colorTrick.r /= 255;
+    colorTrick.g /= 255;
+    colorTrick.b /= 255;
+    return colorTrick;
 }
 
 Image Rasterizer::fillPixelsOnFinalImage(const std::vector<TriangleProjection> &triangles) {
@@ -127,7 +132,7 @@ Image Rasterizer::fillPixelsOnFinalImage(const std::vector<TriangleProjection> &
 
                 double z = -rasterTriangle.interpolateDepth(pixel);
                 if(z > 0 && z < zBuffer[x][y]) {
-                    stub.pixels[y][x] = getColorAt(rasterTriangle.correspondentTriangle);
+                    stub.pixels[imageHeight - 1 - y][x] = getColorAt(rasterTriangle.correspondentTriangle);
                     zBuffer[x][y] = z;
                 }
             }

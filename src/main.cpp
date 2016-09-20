@@ -25,8 +25,8 @@ int rayTracer(WorldScene scene2, Camera camera2, unsigned int width2, unsigned i
     scene.addLight(new PointLight(Color(0.051,0.051,0.051), Vector3(0,8,-1)));
 
     //camera
-    unsigned int height = 4800;
-    unsigned int width = 6400;
+    unsigned int height = 480;
+    unsigned int width = 640;
     Camera camera(Matrix44(std::vector<double> { 1, 0, 0, 0,
                                                  0, 1, 0, 0,
                                                  0, 0, 1, 0,
@@ -59,14 +59,43 @@ int main (int argc, char *argv[]) {
     unsigned int width = 640;
     unsigned int height = 480;
 
+//    WorldScene scene;
+//    scene.addSphere(new Sphere(4, Vector3(0,0,0), Color(1,0,0), 0, 1));
+//    scene.addSphere(new Sphere(1.5, Vector3(6,0,0), Color(1,0,0), 0, 1));
+//    scene.addLight(new DirectionalLight(Color(1,1,1), Vector3(1,1,1)));
+//    Camera camera(Matrix44(std::vector<double> {1, 0, 0, 0,
+//                                                0, 1, 0, 0,
+//                                                0, 0, 1, 0,
+//                                                0, 0,20,1}), 10, 20, 15);
+
     WorldScene scene;
-    scene.addSphere(new Sphere(4, Vector3(0,0,0), Color(1,0,0), 0, 1));
-    scene.addSphere(new Sphere(1.5, Vector3(6,0,0), Color(1,0,0), 0, 1));
-    scene.addLight(new DirectionalLight(Color(1,1,1), Vector3(1,1,1)));
-    Camera camera(Matrix44(std::vector<double> {1, 0, 0, 0,
-                                                0, 1, 0, 0,
-                                                0, 0, 1, 0,
-                                                0, 0,20,1}), 10, 20, 15);
+    scene.addSphere(new Sphere(1.5, Vector3(1,-3,0), Color(0,1,0), 0, 0));
+    scene.addSphere(new Sphere(4, Vector3(-2,0,-5), Color(1,1,1), 1, 0));
+
+//    scene.addSphere((new Sphere(1e5, Vector3(1e5+10,0,0), Color(.25,.25,.75),0,0)));
+    scene.addTriangle(new Triangle(Vector3(10, -15, -25), Vector3(10, -15, 25), Vector3(10, 15, -25), Color(.25,.25,.75)));
+    scene.addTriangle(new Triangle(Vector3(10, 15, 25), Vector3(10, 15, -25), Vector3(10, -15, 25), Color(.25,.25,.75)));
+//    scene.addSphere((new Sphere(1e5, Vector3(-1e5-10,0, 0), Color(.75,.25,.25),0,0)));
+    scene.addTriangle(new Triangle(Vector3(-10, -15, -25), Vector3(-10, 15, -25), Vector3(-10, -15, 25), Color(.75,.25,.25)));
+    scene.addTriangle(new Triangle(Vector3(-10, 15, 25), Vector3(-10, -15, 25), Vector3(-10, 15, -25), Color(.75,.25,.25)));
+//    scene.addSphere((new Sphere(1e5, Vector3(0,0, -1e5-20), Color(1,0,0),0,0)));
+    scene.addTriangle(new Triangle(Vector3(-15, -15, -20), Vector3(15, -15, -20), Vector3(-15, 15, -20), Color(.25,.25,.25)));
+    scene.addTriangle(new Triangle(Vector3(15, 15, -20), Vector3(-15, 15, -20), Vector3(15, -15, -20), Color(.25,.25,.25)));
+    //scene.addSphere((new Sphere(1e5, Vector3(0,1e5+10,0), Color(0,0,1),0,0)));
+    scene.addTriangle(new Triangle(Vector3(-15, 10, -25), Vector3(-15, 10, 25), Vector3(15, 10, -25), Color(.75,.75,.75)));
+    scene.addTriangle(new Triangle(Vector3(15, 10, 25), Vector3(15, 10, -25), Vector3(-15, 10, 25), Color(.75,.75,.75)));
+//    scene.addSphere((new Sphere(1e5, Vector3(0,-1e5-10,0), Color(.75,.75,.75),0,0)));
+    scene.addTriangle(new Triangle(Vector3(-15, -10, -25), Vector3(15, -10, -25), Vector3(-15, -10, 25), Color(.75,.75,.75)));
+    scene.addTriangle(new Triangle(Vector3(15, -10, 25), Vector3(-15, -10, 25), Vector3(15, -10, -25), Color(.75,.75,.75)));
+//    scene.addSphere((new Sphere(1e5, Vector3(0,0,1e5+22), Color(0,0,0),0,0)));
+
+    scene.addLight(new DirectionalLight(Color(0.051,0.051,0.051), Vector3(2,2,2)));
+    scene.addLight(new DirectionalLight(Color(0.051,0.051,0.051), Vector3(-2,2,2)));
+
+    Camera camera(Matrix44(std::vector<double> { 1, 0, 0, 0,
+                                                 0, 1, 0, 0,
+                                                 0, 0, 1, 0,
+                                                 0, 0, 65,1}), 45, 20, 15);
 
     std::chrono::high_resolution_clock::time_point t1 =
         std::chrono::high_resolution_clock::now();
