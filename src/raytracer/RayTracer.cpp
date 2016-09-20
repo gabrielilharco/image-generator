@@ -5,6 +5,7 @@
 #include "raytracer/RayTracer.h"
 
 #include <math.h>
+#include <random>
 
 double mix (double a, double b, double m) {
     return m * b + (1 - m)*a;
@@ -48,7 +49,6 @@ Color RayTracer::traceRay(const Ray& ray, const WorldScene& ws, const Camera& ca
         }
         else {
             for (int i = 0; i < ws.lights().size(); i++) {
-
                 Light *light = ws.lights()[i];
                 Vector3 lightDir = light->directionAt(intercPoint);
                 Ray lightRay(intercPoint, lightDir * -1);

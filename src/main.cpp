@@ -12,8 +12,10 @@
 int rayTracer(WorldScene scene2, Camera camera2, unsigned int width2, unsigned int height2) {
 
     WorldScene scene;
-    scene.addSphere(new Sphere(1.5, Vector3(1,-3,0), Color(0,1,0), 0, 0));
-    scene.addSphere(new Sphere(4, Vector3(-2,0,-5), Color(1,1,1), 1, 0));
+    //scene.addSphere(new Sphere(2, Vector3(2,-8,0), Color(1,1,1), 1, 0));
+    //scene.addSphere(new Sphere(3, Vector3(-4,-7,-10), Color(1,1,1), 1, 0));
+    scene.addSphere(new Sphere(3.4, Vector3(-3,-6,-4), Color(1,1,1), 1, 0));
+    //scene.addSphere(new Sphere(4, Vector3(0,12,-2), Color(1,1,1), 0, 0));
 
     scene.addSphere((new Sphere(1e5, Vector3(1e5+10,0,0), Color(.25,.25,.75),0,0)));
     scene.addSphere((new Sphere(1e5, Vector3(-1e5-10,0, 0), Color(.75,.25,.25),0,0)));
@@ -22,15 +24,19 @@ int rayTracer(WorldScene scene2, Camera camera2, unsigned int width2, unsigned i
     scene.addSphere((new Sphere(1e5, Vector3(0,-1e5-10,0), Color(.75,.75,.75),0,0)));
     scene.addSphere((new Sphere(1e5, Vector3(0,0,1e5+22), Color(0,0,0),0,0)));
 
-    scene.addLight(new PointLight(Color(0.051,0.051,0.051), Vector3(0,8,-1)));
-
+    //scene.addSphere((new Sphere(100, Vector3(0,99,10), Color(1,1,1),0,0)));
+    //scene.addSphere((new Sphere(10, Vector3(0,0, -10-20), Color(.25,.25,.25),0,0)));
+    scene.addLight(new PointLight(Color(0.05,0.05,0.05), Vector3(0,8,4)));
+    //scene.addLight(new DirectionalLight(Color(0.05,0.05,0.05), Vector3(0,-1,0)));
     //camera
-    unsigned int height = 480;
-    unsigned int width = 640;
+
+    unsigned int height = 480*0.5;
+    unsigned int width = 480*0.5;
+
     Camera camera(Matrix44(std::vector<double> { 1, 0, 0, 0,
                                                  0, 1, 0, 0,
                                                  0, 0, 1, 0,
-                                                 0, 0, 65,0}), 45, 20, 15);
+                                                 0, 0, 65,0}), 45, 15, 15);
 
     int dpi = 72;
 

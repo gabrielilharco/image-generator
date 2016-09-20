@@ -1,8 +1,10 @@
 #ifndef RAYTRACER_VECTOR3_H
 #define RAYTRACER_VECTOR3_H
 
-
+#include <random>
 #include "Matrix44.h"
+
+using namespace std;
 
 class Vector3 {
 public:
@@ -13,6 +15,7 @@ public:
 
     static double distance(const Vector3& v1, const Vector3& v2);
     static double distance2(const Vector3& v1, const Vector3& v2);
+    static Vector3 generateRandom();
     static Vector3 middlePoint(const Vector3 v1, const Vector3 v2);
     static double abs2(const Vector3& v);
     Vector3 operator + (const Vector3&) const;
@@ -25,6 +28,7 @@ public:
     double dot(const Vector3&);
     Vector3 cross(const Vector3&);
     double abs();
+
 };
 
 #endif //RAYTRACER_VECTOR3_H

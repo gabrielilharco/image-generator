@@ -13,6 +13,13 @@ Vector3::Vector3 (double xpos, double ypos, double zpos) {
     z = zpos;
 }
 
+static Vector3 generateRandom() {
+    std::uniform_real_distribution<double> unif(0.0,1.0);
+    std::default_random_engine re;
+    Vector3 randVec = Vector3(unif(re), unif(re), unif(re));
+    return randVec.normalize();
+}
+
 double Vector3::distance (const Vector3& v1, const Vector3& v2) {
     return sqrt((v1.x-v2.x)*(v1.x-v2.x) + (v1.y-v2.y)*(v1.y-v2.y) + (v1.z-v2.z)*(v1.z-v2.z));
 }
