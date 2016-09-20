@@ -8,8 +8,8 @@ public:
     Vector3 position;
     Color color;
     virtual Vector3 directionAt (const Vector3& point) override;
-    virtual Color colorAt(const Vector3& point) override;
-    double distanceAt(const Vector3& point) override;
+    Color colorAt(const Vector3& point);
+    double distanceAt(const Vector3& point);
 
     PointLight(Color c, Vector3 pos);
 };

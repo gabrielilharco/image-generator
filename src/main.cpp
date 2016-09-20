@@ -3,11 +3,9 @@
 #include "shared/rendering/DirectionalLight.h"
 #include "rasterizer/Rasterizer.h"
 #include "raytracer/RayTracer.h"
-#include "shared/geometry/Triangle.h"
-#include <math.h>
 #include <chrono>
 #include <shared/rendering/PointLight.h>
-
+#include <shared/rendering/SphereLight.h>
 
 int rayTracer(WorldScene scene2, Camera camera2, unsigned int width2, unsigned int height2) {
 
@@ -26,12 +24,13 @@ int rayTracer(WorldScene scene2, Camera camera2, unsigned int width2, unsigned i
 
     //scene.addSphere((new Sphere(100, Vector3(0,99,10), Color(1,1,1),0,0)));
     //scene.addSphere((new Sphere(10, Vector3(0,0, -10-20), Color(.25,.25,.25),0,0)));
-    scene.addLight(new PointLight(Color(0.05,0.05,0.05), Vector3(0,8,4)));
-    //scene.addLight(new DirectionalLight(Color(0.05,0.05,0.05), Vector3(0,-1,0)));
+    //scene.addLight(new PointLight(Color(0.05,0.05,0.05), Vector3(0,9,4)));
+    scene.addLight(new SphereLight(Color(0.7,0.7,0.7), Vector3(0,9,2), 0.1));
+
     //camera
 
-    unsigned int height = 480*0.5;
-    unsigned int width = 480*0.5;
+    unsigned int height = 480*1.0;
+    unsigned int width = 480*1.0;
 
     Camera camera(Matrix44(std::vector<double> { 1, 0, 0, 0,
                                                  0, 1, 0, 0,

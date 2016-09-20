@@ -3,9 +3,7 @@
 //
 
 #include "raytracer/RayTracer.h"
-
-#include <math.h>
-#include <random>
+#include <shared/rendering/SphereLight.h>
 
 double mix (double a, double b, double m) {
     return m * b + (1 - m)*a;
@@ -49,24 +47,12 @@ Color RayTracer::traceRay(const Ray& ray, const WorldScene& ws, const Camera& ca
         }
         else {
             for (int i = 0; i < ws.lights().size(); i++) {
-                Light *light = ws.lights()[i];
+                // TODO: refactor.
+                SphereLight* light = (SphereLight*)ws.lights()[i];
                 Vector3 lightDir = light->directionAt(intercPoint);
-                Ray lightRay(intercPoint, lightDir * -1);
-
-                double transmission = 1;
-                for (int j = 0; j < ws.objects().size(); j++) {
-                    if (ws.objects()[j] == intercObj) continue;
-
-                    double dist = ws.objects()[j]->getFirstIntersection(lightRay);
-                    //@fixme
-                    if (dist != INF && dist < light->distanceAt(intercPoint)) {
-                        transmission = 0;
-                        break;
-                    }
-                }
-                double cos = norm.dot(lightDir);
+                double cos = norm.dot(lightDir.normalize());
                 if (cos < 0)
-                    color = color + light->colorAt(intercPoint) * intercObj->color * transmission * fabs(cos);
+                    color = color + light->colorAt(intercPoint, ws, camera) * intercObj->color * fabs(cos);
             }
         }
     }

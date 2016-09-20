@@ -8,8 +8,6 @@ class Light {
 public:
     Color color;
     virtual Vector3 directionAt (const Vector3& position) = 0;
-    virtual Color colorAt(const Vector3& position) = 0;
-    virtual double distanceAt(const Vector3& position) = 0;
 };
 
 

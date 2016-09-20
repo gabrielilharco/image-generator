@@ -9,8 +9,8 @@ public:
     Color color;
 
     virtual Vector3 directionAt (const Vector3& point) override;
-    virtual Color colorAt(const Vector3& point) override;
-    double distanceAt(const Vector3& point) override;
+    Color colorAt(const Vector3& point);
+    double distanceAt(const Vector3& point);
 
     DirectionalLight(Color c, Vector3 dir);
 };

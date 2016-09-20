@@ -13,7 +13,7 @@ Vector3::Vector3 (double xpos, double ypos, double zpos) {
     z = zpos;
 }
 
-static Vector3 generateRandom() {
+Vector3 Vector3::generateRandom() {
     std::uniform_real_distribution<double> unif(0.0,1.0);
     std::default_random_engine re;
     Vector3 randVec = Vector3(unif(re), unif(re), unif(re));
