@@ -6,6 +6,7 @@
 #include <math.h>
 #include <rasterizer/geometry/SphereToTrianglesGenerator.h>
 #include <limits>
+#include <shared/rendering/LightFactory.h>
 #include "rasterizer/Rasterizer.h"
 
 Rasterizer::Rasterizer(const WorldScene &scene, const unsigned int imageWidth, const unsigned int imageHeight, const Camera camera)
@@ -32,7 +33,10 @@ const Image Rasterizer::renderImage() {
         transformTrianglesToCameraCoords(triangleList, camera);
     std::vector<TriangleProjection> trianglesOnScreen =
         transformTrianglesToViewportCoords(trianglesWithCameraCoords, camera);
-    Image renderedImage = fillPixelsOnFinalImage(trianglesOnScreen);
+
+    std::vector<Light *> lightsWithCameraCoords = transformLightsToCameraCoords(scene.lights(), camera);
+
+    Image renderedImage = fillPixelsOnFinalImage(trianglesOnScreen, lightsWithCameraCoords);
     return renderedImage;
 }
 
@@ -45,6 +49,16 @@ std::vector<Triangle> Rasterizer::transformTrianglesToCameraCoords(const std::ve
         bOnCameraCoords = triangles[i].b * camera.worldToCamTransform;
         cOnCameraCoords = triangles[i].c * camera.worldToCamTransform;
         result.push_back(Triangle(aOnCameraCoords, bOnCameraCoords, cOnCameraCoords, triangles[i].color));
+    }
+    return result;
+}
+
+std::vector<Light *> Rasterizer::transformLightsToCameraCoords(const std::vector<Light *> &lights, const Camera &camera) {
+    std::vector<Light *> result;
+    Vector3 newCoords;
+    for (int i = 0; i < lights.size(); i++) {
+        newCoords = lights[i]->position * camera.worldToCamTransform;
+        result.push_back(LightFactory::getLight(lights[i], lights[i]->color, newCoords));
     }
     return result;
 }
@@ -77,11 +91,10 @@ std::vector<TriangleProjection> Rasterizer::transformTrianglesToViewportCoords(c
     return result;
 }
 
-Color Rasterizer::getColorAt(Triangle t) {
+Color Rasterizer::getColorAt(Triangle t, vector<Light *> light) {
     Vector3 mid = t.a/3 + t.b/3 + t.c/3;
     Vector3 normal = t.getNormalAt(mid);
 
-    std::vector<Light *> light = scene.lights();
 
     Color rgb = Color(t.color.r*255, t.color.g*255, t.color.b*255);
     HSL triangleHSL = rgb.toHSL();
@@ -103,7 +116,7 @@ Color Rasterizer::getColorAt(Triangle t) {
     return colorTrick;
 }
 
-Image Rasterizer::fillPixelsOnFinalImage(const std::vector<TriangleProjection> &triangles) {
+Image Rasterizer::fillPixelsOnFinalImage(const std::vector<TriangleProjection> &triangles, const std::vector<Light *> &lights) {
     Image stub(imageWidth, imageHeight, 72);
 
     //Set zbuffer to infinity to all pixels
@@ -132,7 +145,7 @@ Image Rasterizer::fillPixelsOnFinalImage(const std::vector<TriangleProjection> &
 
                 double z = -rasterTriangle.interpolateDepth(pixel);
                 if(z > 0 && z < zBuffer[x][y]) {
-                    stub.pixels[imageHeight - 1 - y][x] = getColorAt(rasterTriangle.correspondentTriangle);
+                    stub.pixels[imageHeight - 1 - y][x] = getColorAt(rasterTriangle.correspondentTriangle, lights);
                     zBuffer[x][y] = z;
                 }
             }

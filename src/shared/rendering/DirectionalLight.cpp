@@ -2,7 +2,7 @@
 
 
 Vector3 DirectionalLight::directionAt (const Vector3& point) {
-    return direction.normalize();
+    return position.normalize();
 }
 
 Color DirectionalLight::colorAt (const Vector3& point) {
@@ -10,7 +10,7 @@ Color DirectionalLight::colorAt (const Vector3& point) {
 }
 
 DirectionalLight::DirectionalLight(Color c, Vector3 dir) {
-    direction = dir.normalize();
+    position = dir.normalize();
     color = c;
 }
 

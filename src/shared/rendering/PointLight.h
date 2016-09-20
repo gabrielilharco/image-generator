@@ -5,8 +5,6 @@
 
 class PointLight : public Light{
 public:
-    Vector3 position;
-    Color color;
     virtual Vector3 directionAt (const Vector3& point) override;
     Color colorAt(const Vector3& point);
     double distanceAt(const Vector3& point);

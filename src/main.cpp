@@ -6,6 +6,7 @@
 #include <chrono>
 #include <shared/rendering/PointLight.h>
 #include <shared/rendering/SphereLight.h>
+#include <shared/rendering/LightFactory.h>
 
 int rayTracer(WorldScene scene2, Camera camera2, unsigned int width2, unsigned int height2) {
 
@@ -94,8 +95,8 @@ int main (int argc, char *argv[]) {
     scene.addTriangle(new Triangle(Vector3(15, -10, 25), Vector3(-15, -10, 25), Vector3(15, -10, -25), Color(.75,.75,.75)));
 //    scene.addSphere((new Sphere(1e5, Vector3(0,0,1e5+22), Color(0,0,0),0,0)));
 
-    scene.addLight(new DirectionalLight(Color(0.051,0.051,0.051), Vector3(2,2,2)));
-    scene.addLight(new DirectionalLight(Color(0.051,0.051,0.051), Vector3(-2,2,2)));
+    scene.addLight(LightFactory::getPointLight(Color(0.051,0.051,0.051), Vector3(9,9,-5)));
+    scene.addLight(LightFactory::getDirectionalLight(Color(0.051,0.051,0.051), Vector3(2,2,2)));
 
     Camera camera(Matrix44(std::vector<double> { 1, 0, 0, 0,
                                                  0, 1, 0, 0,

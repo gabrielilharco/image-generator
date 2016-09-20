@@ -2,7 +2,7 @@
 
 
 Vector3 PointLight::directionAt (const Vector3& point) {
-    return point-position;
+    return (position-point).normalize();
 }
 
 Color PointLight::colorAt (const Vector3& point) {

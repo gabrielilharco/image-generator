@@ -7,6 +7,9 @@
 class Light {
 public:
     Color color;
+    Vector3 position;
+    int typeId;
+
     virtual Vector3 directionAt (const Vector3& position) = 0;
 };
 
